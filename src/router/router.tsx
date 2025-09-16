@@ -1,0 +1,49 @@
+import App from "@/App";
+import ForgotPasswordView from "@/modules/auth/views/ForgotPasswordView";
+import Login from "@/modules/auth/views/Login";
+import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
+import Signup from "@/modules/auth/views/Signup";
+import { createBrowserRouter, type RouteObject } from "react-router-dom";
+
+const protectedRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: <></>,
+    children: [{ path: "/dashboard", element: <></> }],
+  },
+];
+
+// Unprotected routes
+const unprotectedRoutes: RouteObject[] = [
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordView />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPasswordView />,
+  },
+];
+
+// Main router configuration
+export const routes: RouteObject[] = [
+  {
+    path: "/",
+    element: <App />, // App component acts as the root boundary
+    errorElement: <></>, // A global error element
+    children: [...unprotectedRoutes, ...protectedRoutes],
+  },
+];
+
+// Create the router instance
+const router = createBrowserRouter(routes);
+
+export default router;
