@@ -8,14 +8,14 @@ import { useState, useEffect } from "react";
 import type { ResetPasswordFormType } from "../utils/validation";
 
 const ResetPasswordForm = ({ userEmail }: { userEmail?: string }) => {
-  const { form } = useResetPasswordForm();
+  const { form, mutation } = useResetPasswordForm();
   const [password, setPassword] = useState("");
 
   const onSubmit = (data: ResetPasswordFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
-  const isSubmitting = form.formState.isSubmitting;
+  const isSubmitting = mutation.isLoading;
 
   // Watch password field for real-time validation
   const watchedPassword = form.watch("password");

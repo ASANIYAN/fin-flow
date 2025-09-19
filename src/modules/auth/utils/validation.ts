@@ -28,9 +28,8 @@ export const SignupSchema = z
       .regex(/^[a-zA-Z\s]+$/, "Last name can only contain letters and spaces"),
 
     email: z
-      .string("Email is required")
-      .min(1, "Email is required")
-      .email("Please enter a valid email address"),
+      .email("Please enter a valid email address")
+      .min(1, "Email is required"),
 
     role: z
       .string("Please select your role")
@@ -38,13 +37,6 @@ export const SignupSchema = z
       .refine((value) => value === "lender" || value === "borrower", {
         message: "Please select either Lender or Borrower",
       }),
-
-    phoneNumber: z
-      .string("Phone number is required")
-      .min(1, "Phone number is required")
-      .min(10, "Phone number must be at least 10 digits")
-      .max(15, "Phone number must be less than 15 digits")
-      .regex(/^[+]?[1-9][\d]{0,15}$/, "Please enter a valid phone number"),
 
     password: z
       .string("Password is required")

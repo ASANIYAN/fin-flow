@@ -3,6 +3,7 @@ import ForgotPasswordView from "@/modules/auth/views/ForgotPasswordView";
 import Login from "@/modules/auth/views/Login";
 import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
 import Signup from "@/modules/auth/views/Signup";
+import VerifyEmailView from "@/modules/auth/views/VerifyEmailView";
 import { createBrowserRouter, type RouteObject } from "react-router-dom";
 
 const protectedRoutes: RouteObject[] = [
@@ -30,6 +31,10 @@ const unprotectedRoutes: RouteObject[] = [
   {
     path: "/reset-password",
     element: <ResetPasswordView />,
+  },
+  {
+    path: "/verify-email",
+    element: <VerifyEmailView />,
   },
 ];
 

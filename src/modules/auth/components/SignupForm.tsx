@@ -2,20 +2,20 @@ import { Form } from "@/components/ui/form";
 import { useSignupForm } from "../hooks/useSignupForm";
 import CustomInput from "@/components/common/custom-input";
 import CustomSelect from "@/components/common/custom-select";
-import { Mail, Phone, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import CustomPasswordInput from "@/components/common/custom-password-input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import type { SignupFormType } from "../utils/validation";
 
 const SignupForm = () => {
-  const { form } = useSignupForm();
+  const { form, mutation } = useSignupForm();
 
   const onSubmit = (data: SignupFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
-  const isSubmitting = form.formState.isSubmitting;
+  const isSubmitting = mutation.isLoading;
 
   return (
     <section
@@ -106,7 +106,7 @@ const SignupForm = () => {
               }
             />
 
-            <CustomInput
+            {/* <CustomInput
               name="phoneNumber"
               placeholder="Phone Number"
               control={form.control}
@@ -126,7 +126,7 @@ const SignupForm = () => {
                   ? "phoneNumber-error"
                   : undefined
               }
-            />
+            /> */}
           </fieldset>
 
           <fieldset className="space-y-2.5">

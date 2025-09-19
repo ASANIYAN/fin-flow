@@ -1,20 +1,28 @@
 import { Form } from "@/components/ui/form";
 import { useLoginForm } from "../hooks/useLoginForm";
 import CustomInput from "@/components/common/custom-input";
-import { Mail } from "lucide-react";
+import { Mail, RefreshCw } from "lucide-react";
 import CustomPasswordInput from "@/components/common/custom-password-input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import type { LoginFormType } from "../utils/validation";
+import { useResendVerification } from "../hooks/useResendVerification";
 
 const LoginForm = () => {
-  const { form } = useLoginForm();
+  const { form, mutation, emailVerificationError } = useLoginForm();
+  const { resendVerification, isResending } = useResendVerification();
 
   const onSubmit = (data: LoginFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
-  const isSubmitting = form.formState.isSubmitting;
+  const handleResendVerification = () => {
+    if (emailVerificationError.userEmail) {
+      resendVerification({ email: emailVerificationError.userEmail });
+    }
+  };
+
+  const isSubmitting = mutation.isLoading;
 
   return (
     <section
@@ -74,6 +82,59 @@ const LoginForm = () => {
               Forgot Password?
             </Link>
           </div>
+
+          {/* Email Verification Error Section */}
+          {emailVerificationError.isEmailNotVerified && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0">
+                  <RefreshCw
+                    size={20}
+                    className="text-red-600"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-medium text-red-800 mb-1">
+                    Email Verification Required
+                  </h3>
+                  <p className="text-sm text-red-700 mb-3">
+                    Please verify your email address before logging in. Check
+                    your inbox for the verification link.
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleResendVerification}
+                    disabled={isResending}
+                    className="border-red-300 text-red-800 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 cursor-pointer"
+                    aria-label="Resend verification email"
+                  >
+                    {isResending ? (
+                      <>
+                        <RefreshCw
+                          size={16}
+                          className="animate-spin mr-2"
+                          aria-hidden="true"
+                        />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw
+                          size={16}
+                          className="mr-2"
+                          aria-hidden="true"
+                        />
+                        Resend Verification Email
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <Button
             type="submit"

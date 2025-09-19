@@ -1,14 +1,20 @@
+import { useEffect } from "react";
 import ResetPasswordForm from "../components/ResetPasswordForm";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const ResetPasswordView = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const token = searchParams.get("token");
 
-  // In a real application, you would validate the token here
-  // For now, we'll just pass the email to show in the form
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
+
+  useEffect(() => {
+    if (!token || !email) {
+      navigate("/auth/forgot-password");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, email]);
 
   return (
     <div className="min-h-screen bg-bg-light-gray flex items-center justify-center p-4">

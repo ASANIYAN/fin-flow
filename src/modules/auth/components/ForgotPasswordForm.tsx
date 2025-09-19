@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 import type { ForgotPasswordFormType } from "../utils/validation";
 
 const ForgotPasswordForm = () => {
-  const { form } = useForgotPasswordForm();
+  const { form, mutation } = useForgotPasswordForm();
 
   const onSubmit = (data: ForgotPasswordFormType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
-  const isSubmitting = form.formState.isSubmitting;
+  const isSubmitting = mutation.isLoading;
 
   return (
     <section
