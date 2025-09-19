@@ -1,16 +1,27 @@
 import App from "@/App";
+import AdminLayout from "@/layouts/AdminLayout";
 import ForgotPasswordView from "@/modules/auth/views/ForgotPasswordView";
 import Login from "@/modules/auth/views/Login";
 import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
 import Signup from "@/modules/auth/views/Signup";
 import VerifyEmailView from "@/modules/auth/views/VerifyEmailView";
-import { createBrowserRouter, type RouteObject } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from "react-router-dom";
 
 const protectedRoutes: RouteObject[] = [
   {
     path: "/",
-    element: <></>,
-    children: [{ path: "/dashboard", element: <></> }],
+    element: <AdminLayout />,
+    children: [
+      { path: "/", element: <Navigate to="/dashboard" /> },
+      { path: "/dashboard", element: <></> },
+      { path: "/loan-listings", element: <></> },
+      { path: "/create-loan", element: <></> },
+      { path: "/profile", element: <></> },
+    ],
   },
 ];
 
