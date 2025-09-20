@@ -15,7 +15,7 @@ const AdminLayout = () => {
   return (
     <section className="relative">
       {/* Mobile Header with Hamburger */}
-      <header className="md:hidden bg-white border-b border-brand-primary/20 p-4 flex items-center justify-between">
+      <header className="lg:hidden bg-white border-b border-brand-primary/20 p-4 flex items-center justify-between">
         <h1 className="text-lg font-bold text-brand-primary">FinFlow</h1>
         <button
           onClick={toggleMobileMenu}
@@ -35,7 +35,7 @@ const AdminLayout = () => {
         onMobileToggle={toggleMobileMenu}
       />
 
-      <section className="flex-1 md:ml-79">
+      <section className="flex-1 lg:ml-79">
         {/* <TopBar /> */}
         <section className="overflow-y-scroll bg-gray-50 rounded-2xl mt-7.5 pb-12.5 px-3 sm:px-5 xl:px-9 mr-0 md:mr-10 min-[1440px]:mr-20 font-poppins">
           <Outlet />

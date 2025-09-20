@@ -67,7 +67,7 @@ const LenderDashboard: React.FC<LenderDashboardProps> = ({ data }) => {
             <DataTable
               data={data.newListings}
               columns={lenderListingsColumns}
-              className="w-full"
+              className="w-full min-w-250"
               pageSize={10}
             />
           )}

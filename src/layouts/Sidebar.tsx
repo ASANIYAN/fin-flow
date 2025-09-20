@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/10 bg-opacity-50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/10 bg-opacity-50 z-40 lg:hidden"
           onClick={onMobileToggle}
         />
       )}
@@ -55,14 +55,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         className={`
         bg-white w-full font-poppins flex flex-col h-screen border border-brand-primary/20 shadow-sm
         fixed top-0 left-0 z-50 pl-5 max-w-71.5
-        md:pt-5 md:fixed md:z-auto
+        lg:pt-5 lg:fixed lg:z-auto
         transition-transform duration-300 ease-in-out
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+        ${isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}
       >
         {/* Header */}
-        <div className="flex-shrink-0 pt-4 md:pt-0">
-          <div className="flex items-center justify-between gap-5.5 pl-2.5 h-16 md:h-20">
+        <div className="flex-shrink-0 pt-4 lg:pt-0">
+          <div className="flex items-center justify-between gap-5.5 pl-2.5 h-16 lg:h-20">
             <div className="flex items-center gap-3">
               <h1 className="text-xl font-bold text-brand-primary">FinFlow</h1>
             </div>

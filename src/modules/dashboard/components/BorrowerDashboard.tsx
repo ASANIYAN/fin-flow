@@ -66,7 +66,7 @@ const BorrowerDashboard: React.FC<BorrowerDashboardProps> = ({ data }) => {
             <DataTable
               data={data.activeLoans}
               columns={borrowerLoansColumns}
-              className="w-full"
+              className="w-full max-xl:min-w-250"
               pageSize={10}
             />
           )}
