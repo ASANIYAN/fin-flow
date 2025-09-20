@@ -37,7 +37,7 @@ const AdminLayout = () => {
 
       <section className="flex-1 md:ml-79">
         {/* <TopBar /> */}
-        <section className="overflow-y-scroll pt-7.5 pb-12.5 px-3 sm:px-5 xl:px-9 mr-0 md:mr-10 min-[1440px]:mr-20 font-poppins">
+        <section className="overflow-y-scroll bg-gray-50 rounded-2xl mt-7.5 pb-12.5 px-3 sm:px-5 xl:px-9 mr-0 md:mr-10 min-[1440px]:mr-20 font-poppins">
           <Outlet />
         </section>
       </section>

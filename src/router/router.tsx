@@ -5,6 +5,7 @@ import Login from "@/modules/auth/views/Login";
 import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
 import Signup from "@/modules/auth/views/Signup";
 import VerifyEmailView from "@/modules/auth/views/VerifyEmailView";
+import Dashboard from "@/modules/dashboard/views/Dashboard";
 import {
   createBrowserRouter,
   Navigate,
@@ -17,7 +18,7 @@ const protectedRoutes: RouteObject[] = [
     element: <AdminLayout />,
     children: [
       { path: "/", element: <Navigate to="/dashboard" /> },
-      { path: "/dashboard", element: <></> },
+      { path: "/dashboard", element: <Dashboard /> },
       { path: "/loan-listings", element: <></> },
       { path: "/create-loan", element: <></> },
       { path: "/profile", element: <></> },
