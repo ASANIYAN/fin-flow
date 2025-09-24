@@ -1,7 +1,7 @@
 export interface ActiveLoan {
   id: string;
   title: string;
-  status: "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED";
+  status: "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED" | "PENDING";
   amountRequested: number;
   amountFunded: number;
   progress: number;

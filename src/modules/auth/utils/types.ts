@@ -1,13 +1,17 @@
 // API Response Types
 export interface LoginResponse {
-  token: string;
+  success: boolean;
+  message: string;
   data: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    isEmailVerified: boolean;
-    role: "LENDER" | "BORROWER";
+    token: string;
+    user: {
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      isEmailVerified: boolean;
+      role: "LENDER" | "BORROWER";
+    };
   };
 }
 

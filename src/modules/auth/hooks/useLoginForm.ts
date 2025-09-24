@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { unauthApi } from "@/services/unauth-services/axiosInstance";
 import { useUserStore } from "@/store/user-store";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type UseLoginFormReturn = {
   form: ReturnType<typeof useForm<LoginFormType>>;
@@ -39,7 +40,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
     },
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { setUser } = useUserStore();
 
   const mutation = useMutation({
@@ -48,8 +49,8 @@ export const useLoginForm = (): UseLoginFormReturn => {
         LOGIN_ENDPOINT,
         data
       );
-      setToken(response.data.token, 1);
-      setUser(response.data.data);
+      setToken(response.data.data.token, 1);
+      setUser(response.data.data.user);
       return response.data;
     },
     onError: (error) => {
@@ -91,15 +92,14 @@ export const useLoginForm = (): UseLoginFormReturn => {
       }
     },
     onSuccess: (data) => {
-      console.log(data, "login data");
-
       try {
         // Reset form with empty values
         form.reset({
           email: "",
           password: "",
         });
-
+        setToken(data.data.token, 1);
+        setUser(data.data.user);
         // Reset email verification error state
         setEmailVerificationError({
           isEmailNotVerified: false,
@@ -107,6 +107,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
         });
 
         toast.success(LOGIN_SUCCESS_MESSAGE);
+        void navigate(`/dashboard`);
       } catch (err) {
         console.error("Success handling failed:", err);
         toast.success("Login successful");
