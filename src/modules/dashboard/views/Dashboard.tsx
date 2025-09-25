@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import BorrowerDashboard from "../components/BorrowerDashboard";
 import LenderDashboard from "../components/LenderDashboard";
+import { DashboardSkeleton } from "../components/DashboardSkeleton";
 import { useDashboardData } from "../hooks/useDashboardApi";
 import { useUserStore } from "@/store/user-store";
 import type { BorrowerDashboardData, LenderDashboardData } from "../types";
@@ -16,19 +17,7 @@ const Dashboard: React.FC = () => {
     useDashboardData(userRole);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex items-center space-x-2 text-[--color-text-secondary]">
-          <Icon
-            icon="material-symbols:refresh"
-            className="animate-spin"
-            width={20}
-            height={20}
-          />
-          <span>Loading dashboard...</span>
-        </div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   if (error) {

@@ -47,6 +47,10 @@ export const borrowerLoansColumns: ColumnDef<ActiveLoan>[] = [
               ₦{loan.amountFunded.toLocaleString()} / ₦
               {loan.amountRequested.toLocaleString()}
             </span>
+            <span>•</span>
+            <span>{loan.interestRate}% APR</span>
+            <span>•</span>
+            <span>Interest: ₦{loan.totalInterest.toLocaleString()}</span>
           </div>
         </div>
       );

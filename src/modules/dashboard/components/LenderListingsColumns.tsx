@@ -27,7 +27,11 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
             <span>•</span>
             <span>{listing.interestRate}% APR</span>
             <span>•</span>
-            <span>{listing.duration} months</span>
+            <span>Interest: ₦{listing.totalInterest.toLocaleString()}</span>
+            <span>•</span>
+            <span>
+              {listing.duration} {listing.durationUnit.toLowerCase()}
+            </span>
           </div>
         </div>
       );
@@ -81,11 +85,29 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
         Term
       </span>
     ),
-    cell: ({ row }) => (
-      <div className="hidden md:block text-[--color-text-primary]">
-        {row.original.duration} months
-      </div>
-    ),
+    cell: ({ row }) => {
+      const { duration, durationUnit } = row.original;
+      const formatDurationUnit = (unit: string) => {
+        switch (unit) {
+          case "DAYS":
+            return duration === 1 ? "day" : "days";
+          case "WEEKS":
+            return duration === 1 ? "week" : "weeks";
+          case "MONTHS":
+            return duration === 1 ? "month" : "months";
+          case "YEARS":
+            return duration === 1 ? "year" : "years";
+          default:
+            return "months";
+        }
+      };
+
+      return (
+        <div className="hidden md:block text-[--color-text-primary]">
+          {duration} {formatDurationUnit(durationUnit)}
+        </div>
+      );
+    },
   },
   {
     id: "actions",

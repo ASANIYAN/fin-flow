@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useUserStore } from "@/store/user-store";
+import { removeToken } from "@/lib/token";
+import ConfirmationModal from "@/components/common/Modal";
 
 type SidebarLink = {
   name: string;
   path: string;
   icon: string;
+  roleRequired?: "LENDER" | "BORROWER";
 };
 
 interface SidebarProps {
@@ -17,7 +21,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   isMobileOpen = false,
   onMobileToggle,
 }) => {
-  const sidebarNavLinks: SidebarLink[] = [
+  const { user, clearUser } = useUserStore();
+  const navigate = useNavigate();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const allSidebarNavLinks: SidebarLink[] = [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -27,11 +35,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       name: "Loan Listings",
       path: "/loan-listings",
       icon: "material-symbols:list-alt-outline",
+      roleRequired: "LENDER",
     },
     {
       name: "Create Loan",
       path: "/create-loan",
       icon: "material-symbols:add-circle-outline",
+      roleRequired: "BORROWER",
     },
     {
       name: "Profile",
@@ -39,6 +49,29 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: "material-symbols:account-circle-outline",
     },
   ];
+
+  // Handle logout
+  const handleLogout = () => {
+    try {
+      removeToken();
+      clearUser();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Still navigate to login even if there's an error
+      navigate("/login");
+    }
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  // Filter sidebar links based on user role
+  const sidebarNavLinks = allSidebarNavLinks.filter((link) => {
+    if (!link.roleRequired) return true; // Show if no role requirement
+    return user?.role === link.roleRequired;
+  });
 
   return (
     <>
@@ -120,8 +153,38 @@ const Sidebar: React.FC<SidebarProps> = ({
               }}
             </NavLink>
           ))}
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogoutClick}
+            className="flex items-center gap-4 h-12.5 w-full px-4 rounded-md transition-colors duration-400 border-l-2 border-transparent hover:bg-red-50 hover:border-red-200 mt-4"
+          >
+            <Icon
+              width="18"
+              height="18"
+              icon="material-symbols:logout"
+              color="var(--color-error)"
+            />
+            <span className="font-semibold text-sm text-[--color-error]">
+              Logout
+            </span>
+          </button>
         </nav>
       </aside>
+
+      {/* Logout Confirmation Modal */}
+      <ConfirmationModal
+        open={showLogoutModal}
+        onOpenChange={setShowLogoutModal}
+        onConfirm={handleLogout}
+        title="Confirm Logout"
+        message="Are you sure you want to logout? You will need to login again to access your account."
+        confirmText="Logout"
+        cancelText="Cancel"
+        confirmVariant="destructive"
+        icon="material-symbols:logout"
+        iconColor="var(--color-error)"
+      />
     </>
   );
 };

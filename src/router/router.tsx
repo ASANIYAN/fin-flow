@@ -6,6 +6,9 @@ import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
 import Signup from "@/modules/auth/views/Signup";
 import VerifyEmailView from "@/modules/auth/views/VerifyEmailView";
 import Dashboard from "@/modules/dashboard/views/Dashboard";
+import LoanListingsPage from "@/modules/listings/views/LoanListingsPage";
+import CreateLoanPage from "@/modules/loan/views/CreateLoanPage";
+import ProfileView from "@/modules/profile/views/ProfileView";
 import {
   createBrowserRouter,
   Navigate,
@@ -19,9 +22,9 @@ const protectedRoutes: RouteObject[] = [
     children: [
       { path: "/", element: <Navigate to="/dashboard" /> },
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/loan-listings", element: <></> },
-      { path: "/create-loan", element: <></> },
-      { path: "/profile", element: <></> },
+      { path: "/loan-listings", element: <LoanListingsPage /> },
+      { path: "/create-loan", element: <CreateLoanPage /> },
+      { path: "/profile", element: <ProfileView /> },
     ],
   },
 ];
