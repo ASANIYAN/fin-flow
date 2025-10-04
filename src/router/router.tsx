@@ -10,6 +10,7 @@ import LoanListingsPage from "@/modules/listings/views/LoanListingsPage";
 import CreateLoanPage from "@/modules/loan/views/CreateLoanPage";
 import ProfileView from "@/modules/profile/views/ProfileView";
 import UserLoansPage from "@/modules/user-loans/views/UserLoansPage";
+import WalletPage from "@/modules/wallet/view/WalletPage";
 import {
   createBrowserRouter,
   Navigate,
@@ -26,6 +27,7 @@ const protectedRoutes: RouteObject[] = [
       { path: "/loan-listings", element: <LoanListingsPage /> },
       { path: "/create-loan", element: <CreateLoanPage /> },
       { path: "/user-loans", element: <UserLoansPage /> },
+      { path: "/wallet", element: <WalletPage /> },
       { path: "/profile", element: <ProfileView /> },
     ],
   },

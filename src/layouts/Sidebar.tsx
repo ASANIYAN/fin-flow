@@ -32,6 +32,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: "material-symbols:dashboard-rounded",
     },
     {
+      name: "Wallet",
+      path: "/wallet",
+      icon: "material-symbols:account-balance-wallet",
+    },
+    {
       name: "Loan Listings",
       path: "/loan-listings",
       icon: "material-symbols:list-alt-outline",

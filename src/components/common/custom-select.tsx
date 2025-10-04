@@ -85,9 +85,9 @@ const CustomSelect: React.FC<
                   selectContentClassName
                 )}
               >
-                {options.map((option) => (
+                {options.map((option, idx) => (
                   <SelectItem
-                    key={option.value}
+                    key={`${option.value}-${idx}`}
                     value={option.value}
                     className={cn(
                       "font-manrope text-xs font-medium",
