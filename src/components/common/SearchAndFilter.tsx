@@ -26,8 +26,8 @@ const SearchAndFilter = ({
   placeholder = "Search loans...",
 }: SearchAndFilterProps) => {
   return (
-    <section className="flex gap-6 items-center">
-      <div className="flex-1 flex items-center bg-stone-100 gap-2 rounded p-1 h-12.5 w-full max-w-155">
+    <section className="flex flex-col md:flex-row gap-6 md:items-center">
+      <div className="flex-1 flex items-center !bg-white shadow-sm gap-2 rounded p-1 h-12.5 w-full max-w-155">
         <Icon
           width="16"
           height="16"
@@ -35,7 +35,7 @@ const SearchAndFilter = ({
           color="var(--color-gray900)"
         />
         <Input
-          className="text-xs leading-4 placeholder:text-gray-400 border-none shadow-none focus-visible:ring-0 focus-visible:outline-none"
+          className="text-xs leading-4 !bg-white placeholder:text-gray-400 border-none shadow-none focus-visible:ring-0 focus-visible:outline-none"
           value={searchValue}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={placeholder}
@@ -45,7 +45,7 @@ const SearchAndFilter = ({
       {showDownloadButton && (
         <Button
           onClick={onDownload}
-          className="bg-[--color-brand-primary] hover:bg-[--color-brand-primary]/90 rounded-lg flex items-center gap-1 py-2 px-4 h-12.5"
+          className="bg-brand-primary hover:bg-brand-primary/90 rounded-lg flex items-center gap-1 py-2 px-4 h-12.5"
         >
           <Icon color="#fff" icon="ri:download-2-line" width="20" height="20" />
           <span className="block text-white font-medium text-sm">

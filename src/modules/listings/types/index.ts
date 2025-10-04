@@ -16,9 +16,9 @@ export interface Loan {
   amountFunded: number;
   interestRate: number;
   duration: number;
-  durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+  durationUnit?: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
   totalInterest: number;
-  status: "PENDING" | "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED";
+  status: "PENDING" | "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED";
   borrowerId: string;
   borrower: Borrower;
   createdAt: string;

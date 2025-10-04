@@ -1,8 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Loan } from "../types";
-import InvestActionListings from "./InvestActionListings";
+import type { UserLoan } from "../types";
 
-export const loanListingsColumns: ColumnDef<Loan>[] = [
+export const userLoansColumns: ColumnDef<UserLoan>[] = [
   {
     accessorKey: "title",
     header: () => (
@@ -15,17 +14,13 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
       return (
         <div className="space-y-1">
           <div
-            className="font-medium text-black hover:text-black/80 transition-colors cursor-pointer"
+            className="font-medium text-black/80 hover:text-black/80 transition-colors cursor-pointer"
             onClick={() => console.log("Navigate to loan details:", loan.id)}
           >
             {loan.title}
           </div>
           {/* Mobile view additional info */}
           <div className="md:hidden flex flex-wrap gap-2 text-sm text-text-secondary">
-            <span>
-              By {loan.borrower.firstName} {loan.borrower.lastName}
-            </span>
-            <span>•</span>
             <span>₦{loan.amountRequested.toLocaleString()}</span>
             <span>•</span>
             <span>{loan.interestRate}% </span>
@@ -41,19 +36,6 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
     },
   },
   {
-    accessorKey: "borrower",
-    header: () => (
-      <span className="text-text-secondary font-medium text-sm hidden md:block">
-        Borrower
-      </span>
-    ),
-    cell: ({ row }) => (
-      <div className="text-black font-medium hidden md:block">
-        {row.original.borrower.firstName} {row.original.borrower.lastName}
-      </div>
-    ),
-  },
-  {
     accessorKey: "amountRequested",
     header: () => (
       <span className="text-text-secondary font-medium text-sm hidden md:block">
@@ -61,7 +43,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
       </span>
     ),
     cell: ({ row }) => (
-      <div className="hidden md:block text-black font-medium">
+      <div className="hidden md:block text-black/80 font-medium">
         ₦{row.original.amountRequested.toLocaleString()}
       </div>
     ),
@@ -79,7 +61,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
 
       return (
         <div className="hidden md:block space-y-1">
-          <div className="text-black font-medium">
+          <div className="text-black/80 font-medium">
             ₦{amountFunded.toLocaleString()}
           </div>
           <div className="text-xs text-text-secondary">{progress}% funded</div>
@@ -96,7 +78,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
     ),
     cell: ({ row }) => (
       <div className="hidden md:block">
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-success/10 text-success">
+        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium text-black/80">
           {row.original.interestRate}%
         </span>
       </div>
@@ -110,7 +92,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
       </span>
     ),
     cell: ({ row }) => (
-      <div className="hidden lg:block text-black font-medium">
+      <div className="hidden lg:block text-black/80 font-medium">
         ₦{(row.original.totalInterest ?? 0).toLocaleString()}
       </div>
     ),
@@ -141,7 +123,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
       };
 
       return (
-        <div className="text-black">
+        <div className="hidden md:block text-black/80">
           {duration} {formatDurationUnit(durationUnit)}
         </div>
       );
@@ -161,7 +143,7 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
           case "PENDING":
             return "bg-warning/10 text-warning";
           case "FUNDING":
-            return "bg-brand-primary/10 text-brand-primary";
+            return "bg-brand-primary/10 text-black/80";
           case "FUNDED":
             return "bg-success/10 text-success";
           case "REPAID":
@@ -185,15 +167,16 @@ export const loanListingsColumns: ColumnDef<Loan>[] = [
     },
   },
   {
-    id: "actions",
+    accessorKey: "createdAt",
     header: () => (
-      <span className="text-text-secondary font-medium text-sm">Action</span>
+      <span className="text-text-secondary font-medium text-sm hidden md:block">
+        Created
+      </span>
     ),
-    cell: ({ row }) => {
-      const loan = row.original;
-      const isInvestable =
-        loan.status === "FUNDING" || loan.status === "PENDING";
-      return <InvestActionListings loan={loan} disabled={!isInvestable} />;
-    },
+    cell: ({ row }) => (
+      <div className="hidden md:block text-text-secondary text-sm">
+        {new Date(row.original.createdAt).toLocaleDateString()}
+      </div>
+    ),
   },
 ];

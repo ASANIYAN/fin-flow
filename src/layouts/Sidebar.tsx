@@ -44,6 +44,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       roleRequired: "BORROWER",
     },
     {
+      name: "My Loans",
+      path: "/user-loans",
+      icon: "material-symbols:account-balance-outline",
+      roleRequired: "BORROWER",
+    },
+    {
       name: "Profile",
       path: "/profile",
       icon: "material-symbols:account-circle-outline",

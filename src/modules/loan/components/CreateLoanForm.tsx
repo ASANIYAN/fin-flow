@@ -17,7 +17,13 @@ const CreateLoanForm = () => {
   const { form, mutation } = useCreateLoanForm();
 
   const onSubmit = (data: CreateLoanFormType) => {
-    mutation.mutate(data);
+    const payload = {
+      ...data,
+      amountRequested: Number(data.amountRequested),
+      interestRate: Number(data.interestRate),
+      duration: Number(data.duration),
+    };
+    mutation.mutate(payload);
   };
 
   const isSubmitting = mutation.isLoading;
@@ -74,7 +80,7 @@ const CreateLoanForm = () => {
             label="Description"
             placeholder="Describe what you need the loan for and how you plan to use the funds..."
             control={form.control}
-            teaxtareaClassName="min-h-24 rounded-lg border-gray-300 focus:border-brand-primary focus:ring-brand-primary"
+            textareaClassName="min-h-24 rounded-lg border-gray-300 focus:border-brand-primary focus:ring-brand-primary"
             formLabelClassName="text-brand-primary font-medium"
             aria-label="Loan description"
             aria-required="true"

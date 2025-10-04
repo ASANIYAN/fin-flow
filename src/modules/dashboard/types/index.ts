@@ -1,12 +1,12 @@
 export interface ActiveLoan {
   id: string;
   title: string;
-  status: "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED" | "PENDING";
+  status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
   amountRequested: number;
   amountFunded: number;
   interestRate: number;
   duration: number;
-  durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+  durationUnit?: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
   totalInterest: number;
   progress: number;
 }
@@ -30,7 +30,7 @@ export interface NewListing {
   amountRequested: number;
   interestRate: number;
   duration: number;
-  durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+  durationUnit?: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
   totalInterest: number;
   progress: number;
 }

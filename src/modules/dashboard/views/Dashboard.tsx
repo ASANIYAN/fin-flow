@@ -30,17 +30,17 @@ const Dashboard: React.FC = () => {
             width={48}
             height={48}
           />
-          <h3 className="text-lg font-semibold text-[--color-text-primary] mb-1">
+          <h3 className="text-lg font-semibold text-text-primary mb-1">
             Failed to load dashboard
           </h3>
-          <p className="text-[--color-text-secondary]">
+          <p className="text-text-secondary">
             There was an error loading your dashboard data.
           </p>
         </div>
         <button
           onClick={() => refetch()}
           disabled={isRefetching}
-          className="flex items-center space-x-2 px-4 py-2 bg-[--color-brand-primary] text-white rounded-lg hover:bg-[--color-brand-primary]/90 transition-colors disabled:opacity-50"
+          className="flex items-center space-x-2 px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/90 transition-colors disabled:opacity-50"
         >
           <Icon
             icon="material-symbols:refresh"
@@ -60,13 +60,11 @@ const Dashboard: React.FC = () => {
         <div className="text-center">
           <Icon
             icon="material-symbols:inbox-outline"
-            className="text-[--color-text-secondary] mx-auto mb-2"
+            className="text-text-secondary mx-auto mb-2"
             width={48}
             height={48}
           />
-          <p className="text-[--color-text-secondary]">
-            No dashboard data available
-          </p>
+          <p className="text-text-secondary">No dashboard data available</p>
         </div>
       </div>
     );
@@ -90,7 +88,7 @@ const Dashboard: React.FC = () => {
         <button
           onClick={() => refetch()}
           disabled={isRefetching}
-          className="flex items-center space-x-2 px-3 py-2 text-sm bg-[--color-bg-light-gray] hover:bg-[--color-border-neutral] text-[--color-text-primary] rounded-lg transition-colors disabled:opacity-50"
+          className="flex items-center space-x-2 px-3 py-2 text-sm bg-light-gray hover:bg-border-neutral text-text-primary rounded-lg transition-colors disabled:opacity-50"
         >
           <Icon
             icon="material-symbols:refresh"

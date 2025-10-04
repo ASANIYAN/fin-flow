@@ -49,7 +49,10 @@ export const useLoginForm = (): UseLoginFormReturn => {
         LOGIN_ENDPOINT,
         data
       );
-      setToken(response.data.data.token, 1);
+      setToken(
+        response.data.data.token.value,
+        new Date(response.data.data.token.expiresAt).getTime()
+      );
       setUser(response.data.data.user);
       return response.data;
     },
@@ -98,7 +101,10 @@ export const useLoginForm = (): UseLoginFormReturn => {
           email: "",
           password: "",
         });
-        setToken(data.data.token, 1);
+        setToken(
+          data.data.token.value,
+          new Date(data.data.token.expiresAt).getTime()
+        );
         setUser(data.data.user);
         // Reset email verification error state
         setEmailVerificationError({

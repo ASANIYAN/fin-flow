@@ -10,22 +10,22 @@ import {
 } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 
-type CustomTextAreaProps = {
+type CustomTextareaProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   name: string;
   label?: string;
-  teaxtareaClassName?: string;
+  textareaClassName?: string;
   formLabelClassName?: string;
 };
 
 const CustomTextArea: React.FC<
-  CustomTextAreaProps & React.TextareaHTMLAttributes<HTMLTextAreaElement>
+  CustomTextareaProps & React.TextareaHTMLAttributes<HTMLTextAreaElement>
 > = ({
   name,
   label,
   control,
-  teaxtareaClassName,
+  textareaClassName,
   formLabelClassName,
   ...rest
 }) => {
@@ -47,7 +47,7 @@ const CustomTextArea: React.FC<
             <Textarea
               className={cn(
                 "flex-1 py-4 placeholder:text-black/50 text-xs shadow-none focus-visible:ring-0 focus-visible:outline-none resize-none",
-                teaxtareaClassName
+                textareaClassName
               )}
               rows={4}
               {...field}

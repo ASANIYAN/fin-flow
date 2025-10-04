@@ -13,12 +13,12 @@ const LenderDashboard: React.FC<LenderDashboardProps> = ({ data }) => {
   return (
     <div className="space-y-6">
       {/* Investment Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 xl:grid-cols-3">
         <StatusCard
           title="Total Invested"
           value={data.investmentSummary.totalInvested}
-          icon="material-symbols:investment-outline"
-          color="primary"
+          icon="material-symbols:account-balance-outline"
+          color="success"
           description="Your total investment"
         />
 
@@ -36,18 +36,6 @@ const LenderDashboard: React.FC<LenderDashboardProps> = ({ data }) => {
           icon="material-symbols:account-balance-outline"
           color="warning"
           description="Currently funding"
-        />
-
-        <StatusCard
-          title="Return Rate"
-          value={`${(
-            (data.investmentSummary.totalEarnings /
-              data.investmentSummary.totalInvested) *
-            100
-          ).toFixed(1)}%`}
-          icon="material-symbols:percent"
-          color="success"
-          description="Average return rate"
         />
       </div>
 
@@ -67,7 +55,7 @@ const LenderDashboard: React.FC<LenderDashboardProps> = ({ data }) => {
             <DataTable
               data={data.newListings}
               columns={lenderListingsColumns}
-              className="w-full min-w-250"
+              className="w-full min-w-250 mb-5"
               pageSize={10}
             />
           )}

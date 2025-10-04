@@ -1,50 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/common/DataTable";
 import SearchAndFilter from "@/components/common/SearchAndFilter";
 import Pagination from "@/components/common/Pagination";
-import { useLoansListings } from "../hooks/useLoansListings";
 import { loanListingsColumns } from "./LoanListingsColumns";
-import { useDebounce } from "@/hooks/useDebounce";
 import { Icon } from "@iconify/react";
+import { useLoanListingsContext } from "../hooks/useLoanListingsContext";
 
 const LoanListings: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-
-  // Debounce search query to avoid too many API calls
-  const debouncedQuery = useDebounce(searchQuery, 500);
-
-  const { loans, pagination, isLoading, isFetching, error, refetch } =
-    useLoansListings({
-      page: currentPage,
-      pageSize,
-      query: debouncedQuery,
-    });
-
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
-    // Reset to first page when searching
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handlePageSizeChange = (newPageSize: number) => {
-    setPageSize(newPageSize);
-    // Reset to first page when changing page size
-    setCurrentPage(1);
-  };
-
-  const handleDownload = () => {
-    // Implement download functionality
-    console.log("Downloading loan listings report...");
-  };
+  const {
+    searchQuery,
+    loans,
+    pagination,
+    isLoading,
+    isFetching,
+    error,
+    setSearchQuery,
+    setCurrentPage,
+    setPageSize,
+    handleDownload,
+    refetch,
+  } = useLoanListingsContext();
 
   if (error) {
     return (
@@ -91,7 +67,7 @@ const LoanListings: React.FC = () => {
       {/* Search and Filters */}
       <SearchAndFilter
         searchValue={searchQuery}
-        onSearchChange={handleSearchChange}
+        onSearchChange={setSearchQuery}
         showDownloadButton={true}
         onDownload={handleDownload}
         placeholder="Search by loan title, borrower name, or description..."
@@ -149,20 +125,20 @@ const LoanListings: React.FC = () => {
               <DataTable
                 data={loans}
                 columns={loanListingsColumns}
-                className="w-full"
-                pageSize={pageSize}
+                className="w-full min-w-150 md:min-w-300 mb-5"
+                pageSize={10}
               />
 
               {/* Pagination */}
               {pagination.totalPages > 1 && (
                 <div className="mt-6 border-t pt-4">
                   <Pagination
-                    currentPage={currentPage}
+                    currentPage={pagination.page}
                     totalPages={pagination.totalPages}
-                    perPage={pageSize}
+                    perPage={pagination.pageSize}
                     totalItems={pagination.totalItems}
-                    onPageChange={handlePageChange}
-                    onPerPageChange={handlePageSizeChange}
+                    onPageChange={setCurrentPage}
+                    onPerPageChange={setPageSize}
                     disabled={isFetching}
                   />
                 </div>

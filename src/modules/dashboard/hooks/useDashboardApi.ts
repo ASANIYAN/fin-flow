@@ -20,7 +20,7 @@ interface BorrowerApiResponse {
       duration: number;
       durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
       totalInterest: number;
-      status: "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED" | "PENDING";
+      status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
       createdAt: string;
       updatedAt: string;
     }>;
@@ -46,7 +46,7 @@ interface LenderApiResponse {
       duration: number;
       durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
       totalInterest: number;
-      status: "FUNDING" | "FUNDED" | "COMPLETED" | "DEFAULTED" | "PENDING";
+      status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
       borrower: string;
       progress: number;
       createdAt: string;
@@ -81,7 +81,7 @@ export const useDashboardData = (userRole: "LENDER" | "BORROWER") => {
               interestRate: loan.interestRate,
               duration: loan.duration,
               durationUnit: loan.durationUnit,
-              totalInterest: loan.totalInterest,
+              totalInterest: loan.totalInterest ?? 0,
               progress: Math.round(
                 (loan.amountFunded / loan.amountRequested) * 100
               ),
@@ -99,7 +99,7 @@ export const useDashboardData = (userRole: "LENDER" | "BORROWER") => {
               interestRate: listing.interestRate,
               duration: listing.duration,
               durationUnit: listing.durationUnit,
-              totalInterest: listing.totalInterest,
+              totalInterest: listing.totalInterest ?? 0,
               progress: listing.progress,
             })),
           };

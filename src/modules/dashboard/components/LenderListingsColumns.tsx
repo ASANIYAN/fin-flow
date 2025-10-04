@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { NewListing } from "../types";
+import InvestAction from "./InvestAction";
 
 export const lenderListingsColumns: ColumnDef<NewListing>[] = [
   {
@@ -25,12 +26,14 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
             <span>•</span>
             <span>₦{listing.amountRequested.toLocaleString()}</span>
             <span>•</span>
-            <span>{listing.interestRate}% APR</span>
-            <span>•</span>
-            <span>Interest: ₦{listing.totalInterest.toLocaleString()}</span>
+            <span>{listing.interestRate}%</span>
             <span>•</span>
             <span>
-              {listing.duration} {listing.durationUnit.toLowerCase()}
+              Interest: ₦{(listing.totalInterest ?? 0).toLocaleString()}
+            </span>
+            <span>•</span>
+            <span>
+              {listing.duration} {listing.durationUnit?.toLowerCase() || "d"}
             </span>
           </div>
         </div>
@@ -73,7 +76,7 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
     cell: ({ row }) => (
       <div className="hidden md:block">
         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[--color-success]/10 text-[--color-success]">
-          {row.original.interestRate}% APR
+          {row.original.interestRate}%
         </span>
       </div>
     ),
@@ -87,8 +90,9 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
     ),
     cell: ({ row }) => {
       const { duration, durationUnit } = row.original;
-      const formatDurationUnit = (unit: string) => {
-        switch (unit) {
+      const formatDurationUnit = (unit: string | undefined) => {
+        const safeUnit = unit || "MONTHS";
+        switch (safeUnit) {
           case "DAYS":
             return duration === 1 ? "day" : "days";
           case "WEEKS":
@@ -116,16 +120,9 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
         Action
       </span>
     ),
-    cell: ({ row }) => (
-      <button
-        className="bg-[--color-brand-primary] text-white px-4 py-2 rounded-lg hover:bg-[--color-brand-primary]/90 transition-colors text-sm font-medium"
-        onClick={() => {
-          // Handle invest click - you can replace this with your actual logic
-          console.log("Invest in loan:", row.original.title);
-        }}
-      >
-        Invest
-      </button>
-    ),
+    cell: ({ row }) => {
+      const listing = row.original;
+      return <InvestAction listing={listing} />;
+    },
   },
 ];
