@@ -5,6 +5,8 @@ export type UserProfile = {
   lastName: string;
   role: "BORROWER" | "LENDER" | "ADMIN";
   isEmailVerified: boolean;
+  availableBalance: number;
+  escrowBalance: number;
   createdAt: string;
 };
 
