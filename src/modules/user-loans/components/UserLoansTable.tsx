@@ -24,10 +24,7 @@ const UserLoansTable: React.FC = () => {
           <CardTitle className="text-lg">
             Your Loans ({pagination.totalItems})
           </CardTitle>
-          <button
-            onClick={() => console.log("Download functionality")}
-            className="flex items-center space-x-2 px-3 py-2 text-sm bg-[--color-brand-primary] text-white rounded-lg hover:bg-[--color-brand-primary]/90 transition-colors"
-          >
+          <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-[--color-brand-primary] text-white rounded-lg hover:bg-[--color-brand-primary]/90 transition-colors">
             <Icon icon="material-symbols:download" width={16} height={16} />
             <span>Download Report</span>
           </button>

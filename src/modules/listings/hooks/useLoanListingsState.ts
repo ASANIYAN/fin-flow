@@ -62,10 +62,7 @@ export const useLoanListingsState = () => {
     setCurrentPage(1);
   };
 
-  const handleDownload = () => {
-    // Implement download functionality
-    console.log("Downloading loan listings report...");
-  };
+  const handleDownload = () => {};
 
   const state: LoanListingsState = {
     searchQuery,

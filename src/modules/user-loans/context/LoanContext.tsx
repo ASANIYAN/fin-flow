@@ -91,7 +91,6 @@ export const LoanProvider: React.FC<LoanProviderProps> = ({ children }) => {
       totalPages: number;
     }> => {
       try {
-
         const searchParams = new URLSearchParams({
           page: queryParams.page.toString(),
           pageSize: queryParams.pageSize.toString(),
@@ -123,7 +122,6 @@ export const LoanProvider: React.FC<LoanProviderProps> = ({ children }) => {
           );
         }
 
-        console.log("API Response:", response.data);
         return response.data.data;
       } catch (error) {
         const errorMsg = getApiErrorMessage(error);
@@ -147,32 +145,27 @@ export const LoanProvider: React.FC<LoanProviderProps> = ({ children }) => {
 
   // Filter actions
   const handleSetSearchQuery = (value: string) => {
-    console.log("Search changed:", value);
     setSearchQuery(value);
     // Reset to first page when searching
     setCurrentPage(1);
   };
 
   const handleSetStatusFilter = (value: string) => {
-    console.log("Status filter changed:", value);
     setStatusFilter(value);
     setCurrentPage(1);
   };
 
   const handleSetMinAmount = (value: string) => {
-    console.log("Min amount changed:", value);
     setMinAmount(value);
     setCurrentPage(1);
   };
 
   const handleSetMaxAmount = (value: string) => {
-    console.log("Max amount changed:", value);
     setMaxAmount(value);
     setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
-    console.log("Clearing filters");
     setSearchQuery("");
     setStatusFilter("");
     setMinAmount("");
@@ -182,12 +175,10 @@ export const LoanProvider: React.FC<LoanProviderProps> = ({ children }) => {
 
   // Pagination actions
   const handleSetCurrentPage = (page: number) => {
-    console.log("Page changed:", page);
     setCurrentPage(page);
   };
 
   const handleSetPageSize = (newPageSize: number) => {
-    console.log("Page size changed:", newPageSize);
     setPageSize(newPageSize);
     // Reset to first page when changing page size
     setCurrentPage(1);

@@ -47,8 +47,6 @@ export const useUpdateUserProfile = (
       return response.data;
     },
     onError: (error) => {
-      console.log(error, "Update profile error");
-
       try {
         const errorMsg = getApiErrorMessage(error);
         toast.error(

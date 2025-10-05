@@ -9,6 +9,7 @@ interface StatusCardProps {
   color?: "primary" | "success" | "warning" | "error";
   description?: string;
   className?: string;
+  symbol?: string;
 }
 
 const StatusCard: React.FC<StatusCardProps> = ({
@@ -17,6 +18,7 @@ const StatusCard: React.FC<StatusCardProps> = ({
   icon,
   color = "primary",
   description,
+  symbol = "",
   className = "",
 }) => {
   const getColorClasses = (color: string) => {
@@ -46,15 +48,12 @@ const StatusCard: React.FC<StatusCardProps> = ({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-brand-primary">
-          {typeof value === "number" && value > 999
-            ? `₦${(value / 1000).toFixed(1)}k`
-            : typeof value === "number" &&
-              title.toLowerCase().includes("amount")
-            ? `₦${value.toLocaleString()}`
+          {typeof value === "number"
+            ? `${symbol}${value.toLocaleString()}`
             : value}
         </div>
         {description && (
-          <p className="text-xs text-[--color-text-secondary] mt-1">
+          <p className="text-xs text-color-text-secondary mt-1">
             {description}
           </p>
         )}

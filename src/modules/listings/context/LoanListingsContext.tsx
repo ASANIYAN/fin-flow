@@ -76,7 +76,6 @@ export const LoanListingsProvider: React.FC<LoanListingsProviderProps> = ({
 
   const handleDownload = () => {
     // Implement download functionality
-    console.log("Downloading loan listings report...");
   };
 
   const contextValue: LoanListingsContextType = {

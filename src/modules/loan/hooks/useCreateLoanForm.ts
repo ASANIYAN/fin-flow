@@ -57,8 +57,6 @@ export const useCreateLoanForm = (): UseCreateLoanFormReturn => {
       return response.data;
     },
     onError: (error) => {
-      console.log(error, "Create loan error");
-
       try {
         const errorMsg = getApiErrorMessage(error);
         toast.error(errorMsg || "An error occurred while creating the loan");

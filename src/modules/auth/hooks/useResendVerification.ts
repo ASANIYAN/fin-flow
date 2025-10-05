@@ -38,8 +38,6 @@ export const useResendVerification = () => {
       }
     },
     onSuccess: (data) => {
-      console.log("Resend verification success:", data);
-
       try {
         toast.success(data.message || RESEND_SUCCESS_MESSAGE);
       } catch (err) {

@@ -57,8 +57,6 @@ export const useLoginForm = (): UseLoginFormReturn => {
       return response.data;
     },
     onError: (error) => {
-      console.log(error, "error Msg");
-
       try {
         const errorMsg = getApiErrorMessage(error);
 

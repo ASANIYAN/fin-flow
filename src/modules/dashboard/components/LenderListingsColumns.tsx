@@ -14,10 +14,7 @@ export const lenderListingsColumns: ColumnDef<NewListing>[] = [
       const listing = row.original;
       return (
         <div className="space-y-1">
-          <div
-            className="font-medium text-[--color-text-primary] hover:text-[--color-brand-primary] transition-colors cursor-pointer"
-            onClick={() => console.log("Navigate to loan details:", listing.id)}
-          >
+          <div className="font-medium text-[--color-text-primary] hover:text-[--color-brand-primary] transition-colors cursor-pointer">
             {listing.title}
           </div>
           {/* Mobile view additional info */}

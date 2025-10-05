@@ -125,7 +125,6 @@ export const useUserLoansState = () => {
 
   const handleDownload = useCallback(() => {
     // Implement download functionality
-    console.log("Downloading user loans report...");
   }, []);
 
   return useMemo(() => {

@@ -22,12 +22,7 @@ const InvestActionListings: React.FC<{ loan: Loan; disabled?: boolean }> = ({
         {disabled ? "Not Available" : "Invest"}
       </button>
 
-      <FundLoanModal
-        open={open}
-        onOpenChange={setOpen}
-        loanId={loan.id}
-        onSuccess={() => console.log("Funding submitted for", loan.id)}
-      />
+      <FundLoanModal open={open} onOpenChange={setOpen} loanId={loan.id} />
     </>
   );
 };

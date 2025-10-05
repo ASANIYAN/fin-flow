@@ -13,10 +13,7 @@ export const userLoansColumns: ColumnDef<UserLoan>[] = [
       const loan = row.original;
       return (
         <div className="space-y-1">
-          <div
-            className="font-medium text-black/80 hover:text-black/80 transition-colors cursor-pointer"
-            onClick={() => console.log("Navigate to loan details:", loan.id)}
-          >
+          <div className="font-medium text-black/80 hover:text-black/80 transition-colors cursor-pointer">
             {loan.title}
           </div>
           {/* Mobile view additional info */}

@@ -30,26 +30,20 @@ const WalletStatus: React.FC<{ available: number; escrow: number }> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <StatusCard
+          symbol="₦"
           title="Available Balance"
           value={available}
           icon="material-symbols:account-balance-wallet"
         />
         <StatusCard
+          symbol="₦"
           title="Escrow Balance"
           value={escrow}
           icon="material-symbols:account-balance"
         />
 
-        <FundWalletModal
-          open={fundOpen}
-          onOpenChange={setFundOpen}
-          onSuccess={() => console.log("Fund success")}
-        />
-        <WithdrawModal
-          open={withdrawOpen}
-          onOpenChange={setWithdrawOpen}
-          onSuccess={() => console.log("Withdraw success")}
-        />
+        <FundWalletModal open={fundOpen} onOpenChange={setFundOpen} />
+        <WithdrawModal open={withdrawOpen} onOpenChange={setWithdrawOpen} />
       </div>
     </section>
   );

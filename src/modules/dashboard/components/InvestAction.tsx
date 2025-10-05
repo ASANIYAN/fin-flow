@@ -14,12 +14,7 @@ const InvestAction: React.FC<{ listing: NewListing }> = ({ listing }) => {
         Invest
       </button>
 
-      <FundLoanModal
-        open={open}
-        onOpenChange={setOpen}
-        loanId={listing.id}
-        onSuccess={() => console.log("Funding submitted for", listing.id)}
-      />
+      <FundLoanModal open={open} onOpenChange={setOpen} loanId={listing.id} />
     </>
   );
 };
