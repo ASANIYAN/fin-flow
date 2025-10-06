@@ -8,10 +8,12 @@ import {
 } from "@/components/ui/dialog";
 import { useBanksQuery } from "@/modules/wallet/hooks/useBanksQuery";
 import useWithdrawMutation from "@/modules/wallet/hooks/useWithdrawMutation";
+import useResolveAccount from "@/modules/wallet/hooks/useResolveAccount";
 import CustomInput from "@/components/common/custom-input";
 import ComboboxSelect from "@/components/common/combobox-select";
 import { Form } from "@/components/ui/form";
 import { formatAmountDisplay } from "@/lib/formatAmount";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const WithdrawModal: React.FC<{
   open: boolean;
@@ -23,6 +25,49 @@ const WithdrawModal: React.FC<{
   const { handleSubmit } = form;
 
   const watchedAmount = form.watch("amount");
+  const [resolvedAccountName, setResolvedAccountName] =
+    React.useState<string>("");
+
+  const resolveAccountMutation = useResolveAccount();
+
+  const accountNumberValue = form.watch("accountNumber");
+  const bankCodeValue = form.watch("bankCode");
+  const debouncedAccountNumber = useDebounce(accountNumberValue, 500);
+  const debouncedBankCode = useDebounce(bankCodeValue, 500);
+
+  const isResolvingRef = React.useRef(false);
+
+  React.useEffect(() => {
+    // Resolve when debounced values change. Prevent multiple concurrent requests.
+    if (!debouncedAccountNumber || !debouncedBankCode || isResolvingRef.current)
+      return;
+
+    isResolvingRef.current = true;
+    let mounted = true;
+
+    (async () => {
+      try {
+        const res = await resolveAccountMutation.mutateAsync({
+          accountNumber: debouncedAccountNumber,
+          bankCode: debouncedBankCode,
+        });
+        if (!mounted) return;
+        const name = res?.data?.account_name || "";
+        setResolvedAccountName(name);
+      } catch {
+        if (!mounted) return;
+        setResolvedAccountName("");
+      } finally {
+        if (mounted) isResolvingRef.current = false;
+      }
+    })();
+
+    return () => {
+      mounted = false;
+      isResolvingRef.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedAccountNumber]);
 
   const onSubmit = async () => {
     try {
@@ -55,6 +100,7 @@ const WithdrawModal: React.FC<{
                 form.setValue("amount", raw, { shouldValidate: true });
               }}
             />
+
             <ComboboxSelect
               name="bankCode"
               label="Bank"
@@ -73,6 +119,18 @@ const WithdrawModal: React.FC<{
               control={form.control}
               inputClassName="py-3"
               containerClassName="rounded border-gray-200"
+            />
+
+            <CustomInput
+              name="accountName"
+              label="Account Name"
+              placeholder="Account name"
+              control={form.control}
+              inputClassName="py-3"
+              disabled
+              containerClassName="rounded border-gray-200 bg-gray-50"
+              value={resolvedAccountName}
+              readOnly
             />
             <DialogFooter>
               <button

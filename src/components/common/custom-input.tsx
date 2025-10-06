@@ -62,7 +62,7 @@ const CustomInput: React.FC<
               {append}
               <Input
                 className={cn(
-                  "flex-1 py-4 placeholder:text-black/50 text-xs border-none shadow-none focus-visible:ring-0 focus-visible:outline-none",
+                  "flex-1 py-4 placeholder:text-black/50 text-xs border-none shadow-none focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed",
                   inputClassName
                 )}
                 {...field}

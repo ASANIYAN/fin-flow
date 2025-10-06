@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StatusCard from "@/modules/dashboard/components/StatusCard";
 import FundWalletModal from "./FundWalletModal";
-import WithdrawModal from "./WithdrawModal";
+// import WithdrawModal from "./WithdrawModal";
 import { Button } from "@/components/ui/button";
 
 const WalletStatus: React.FC<{ available: number; escrow: number }> = ({
@@ -9,7 +9,7 @@ const WalletStatus: React.FC<{ available: number; escrow: number }> = ({
   escrow,
 }) => {
   const [fundOpen, setFundOpen] = useState(false);
-  const [withdrawOpen, setWithdrawOpen] = useState(false);
+  //   const [withdrawOpen, setWithdrawOpen] = useState(false);
 
   return (
     <section className="space-y-5">
@@ -20,12 +20,12 @@ const WalletStatus: React.FC<{ available: number; escrow: number }> = ({
         >
           Fund Wallet
         </Button>
-        <Button
+        {/* <Button
           className="px-4 py-2 bg-white text-brand-primary rounded h-10 cursor-pointer border border-brand-primary hover:bg-white shadow-none transition-colors"
           onClick={() => setWithdrawOpen(true)}
         >
           Withdraw
-        </Button>
+        </Button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -43,7 +43,7 @@ const WalletStatus: React.FC<{ available: number; escrow: number }> = ({
         />
 
         <FundWalletModal open={fundOpen} onOpenChange={setFundOpen} />
-        <WithdrawModal open={withdrawOpen} onOpenChange={setWithdrawOpen} />
+        {/* <WithdrawModal open={withdrawOpen} onOpenChange={setWithdrawOpen} /> */}
       </div>
     </section>
   );

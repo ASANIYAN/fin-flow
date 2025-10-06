@@ -41,7 +41,7 @@ const FundWalletModal: React.FC<{
       // Amount MUST be in Kobo (lowest denomination)
       amount: parseFloat(watchedAmount || "0") * 100,
       // Paystack expects the public key under the `key` property
-      key: PAYSTACK_KEY || "pk_test_f9d0721cdad72e11e42fbf9a057092dd03a0c63c",
+      key: PAYSTACK_KEY,
       currency: CURRENCY,
       metadata: {
         userId: user?.id || "",
@@ -88,6 +88,7 @@ const FundWalletModal: React.FC<{
 
     if (handler && typeof handler.openIframe === "function") {
       handler.openIframe();
+      onOpenChange(false);
     }
   };
 

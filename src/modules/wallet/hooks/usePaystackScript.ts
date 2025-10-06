@@ -1,21 +1,7 @@
 import { useEffect, useState } from "react";
 
-/** Public key (may come from Vite's import.meta.env or process.env depending on runtime) */
-const getViteKey = (): string | undefined => {
-  if (typeof process !== "undefined") {
-    const env = process.env as unknown as Record<string, string> | undefined;
-    return env?.VITE_PAYSTACK_PUBLIC_KEY;
-  }
-  if (typeof import.meta !== "undefined") {
-    const meta = import.meta as unknown as
-      | { env?: Record<string, string> }
-      | undefined;
-    return meta?.env?.VITE_PAYSTACK_PUBLIC_KEY;
-  }
-  return undefined;
-};
-
-export const PAYSTACK_KEY: string | undefined = getViteKey();
+export const PAYSTACK_KEY: string | undefined = import.meta.env
+  .VITE_PAYSTACK_PUBLIC_KEY;
 
 export const CURRENCY = "NGN";
 
