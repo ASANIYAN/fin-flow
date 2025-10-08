@@ -13,7 +13,6 @@ export interface LoginResponse {
       firstName: string;
       lastName: string;
       isEmailVerified: boolean;
-      role: "LENDER" | "BORROWER";
     };
   };
 }
@@ -26,7 +25,6 @@ export interface SignupResponse {
     firstName: string;
     lastName: string;
     isEmailVerified: boolean;
-    role: "LENDER" | "BORROWER";
   };
 }
 
@@ -45,7 +43,6 @@ export interface SignupPayload {
   confirmPassword: string;
   firstName: string;
   lastName: string;
-  role: "BORROWER" | "LENDER";
 }
 
 export interface LoginPayload {

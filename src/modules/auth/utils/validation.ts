@@ -31,13 +31,6 @@ export const SignupSchema = z
       .email("Please enter a valid email address")
       .min(1, "Email is required"),
 
-    role: z
-      .string("Please select your role")
-      .min(1, "Please select your role")
-      .refine((value) => value === "lender" || value === "borrower", {
-        message: "Please select either Lender or Borrower",
-      }),
-
     password: z
       .string("Password is required")
       .min(1, "Password is required")

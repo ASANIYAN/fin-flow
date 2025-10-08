@@ -1,20 +1,12 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import BorrowerDashboard from "../components/BorrowerDashboard";
-import LenderDashboard from "../components/LenderDashboard";
 import { DashboardSkeleton } from "../components/DashboardSkeleton";
 import { useDashboardData } from "../hooks/useDashboardApi";
-import { useUserStore } from "@/store/user-store";
-import type { BorrowerDashboardData, LenderDashboardData } from "../types";
+import type { BorrowerDashboardData } from "../types";
 
 const Dashboard: React.FC = () => {
-  const { user } = useUserStore();
-
-  // Get user role from the store, fallback to BORROWER if not available
-  const userRole = user?.role || "BORROWER";
-
-  const { data, isLoading, error, refetch, isRefetching } =
-    useDashboardData(userRole);
+  const { data, isLoading, error, refetch, isRefetching } = useDashboardData();
 
   if (isLoading) {
     return <DashboardSkeleton />;
@@ -79,9 +71,7 @@ const Dashboard: React.FC = () => {
             Dashboard
           </h1>
           <p className="text-[--color-text-secondary]">
-            {userRole === "BORROWER"
-              ? "Track your loan applications and funding progress"
-              : "Discover investment opportunities and monitor your portfolio"}
+            Track your loan applications, funding progress, and investment opportunities
           </p>
         </div>
 
@@ -102,12 +92,7 @@ const Dashboard: React.FC = () => {
 
       {/* Dashboard Content */}
       <div className="transition-all duration-300">
-        {userRole === "BORROWER" && (
-          <BorrowerDashboard data={data as BorrowerDashboardData} />
-        )}
-        {userRole === "LENDER" && (
-          <LenderDashboard data={data as LenderDashboardData} />
-        )}
+        <BorrowerDashboard data={data as BorrowerDashboardData} />
       </div>
     </div>
   );

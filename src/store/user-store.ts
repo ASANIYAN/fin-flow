@@ -7,7 +7,6 @@ interface User {
   firstName: string;
   lastName: string;
   isEmailVerified: boolean;
-  role: "LENDER" | "BORROWER";
 }
 
 interface UserStore {

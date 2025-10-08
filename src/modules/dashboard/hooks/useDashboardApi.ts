@@ -2,9 +2,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { authApi } from "@/services/auth-services/axiosInstance";
 import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
-import type { BorrowerDashboardData, LenderDashboardData } from "../types";
+import type { BorrowerDashboardData } from "../types";
 
-interface BorrowerApiResponse {
+interface UnifiedDashboardApiResponse {
   success: boolean;
   message: string;
   data: {
@@ -27,90 +27,41 @@ interface BorrowerApiResponse {
   };
 }
 
-interface LenderApiResponse {
-  success: boolean;
-  message: string;
-  data: {
-    investmentSummary: {
-      totalInvested: number;
-      totalEarnings: number;
-      activeInvestments: number;
-    };
-    newListings: Array<{
-      id: string;
-      title: string;
-      description: string;
-      amountRequested: number;
-      amountFunded: number;
-      interestRate: number;
-      duration: number;
-      durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
-      totalInterest: number;
-      status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
-      borrower: string;
-      progress: number;
-      createdAt: string;
-    }>;
-  };
-}
-
-type DashboardApiResponse = BorrowerApiResponse | LenderApiResponse;
-
 const DASHBOARD_ENDPOINT = "/api/loans/dashboard";
 
-export const useDashboardData = (userRole: "LENDER" | "BORROWER") => {
+export const useDashboardData = () => {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["dashboard", userRole],
-    queryFn: async (): Promise<BorrowerDashboardData | LenderDashboardData> => {
+    queryKey: ["dashboard"],
+    queryFn: async (): Promise<BorrowerDashboardData> => {
       try {
-        const response = await authApi.get<DashboardApiResponse>(
+        const response = await authApi.get<UnifiedDashboardApiResponse>(
           DASHBOARD_ENDPOINT
         );
 
-        if (userRole === "BORROWER") {
-          const borrowerResponse = response.data as BorrowerApiResponse;
-          return {
-            totalApplications: borrowerResponse.data.totalApplications,
-            pendingApplications: borrowerResponse.data.pendingApplications,
-            activeLoans: borrowerResponse.data.activeLoans.map((loan) => ({
-              id: loan.id,
-              title: loan.title,
-              status: loan.status,
-              amountRequested: loan.amountRequested,
-              amountFunded: loan.amountFunded,
-              interestRate: loan.interestRate,
-              duration: loan.duration,
-              durationUnit: loan.durationUnit,
-              totalInterest: loan.totalInterest ?? 0,
-              progress: Math.round(
-                (loan.amountFunded / loan.amountRequested) * 100
-              ),
-            })),
-          };
-        } else {
-          const lenderResponse = response.data as LenderApiResponse;
-          return {
-            investmentSummary: lenderResponse.data.investmentSummary,
-            newListings: lenderResponse.data.newListings.map((listing) => ({
-              id: listing.id,
-              title: listing.title,
-              borrower: listing.borrower,
-              amountRequested: listing.amountRequested,
-              interestRate: listing.interestRate,
-              duration: listing.duration,
-              durationUnit: listing.durationUnit,
-              totalInterest: listing.totalInterest ?? 0,
-              progress: listing.progress,
-            })),
-          };
-        }
+        return {
+          totalApplications: response.data.data.totalApplications,
+          pendingApplications: response.data.data.pendingApplications,
+          activeLoans: response.data.data.activeLoans.map((loan) => ({
+            id: loan.id,
+            title: loan.title,
+            status: loan.status,
+            amountRequested: loan.amountRequested,
+            amountFunded: loan.amountFunded,
+            interestRate: loan.interestRate,
+            duration: loan.duration,
+            durationUnit: loan.durationUnit,
+            totalInterest: loan.totalInterest ?? 0,
+            progress: Math.round(
+              (loan.amountFunded / loan.amountRequested) * 100
+            ),
+          })),
+        };
       } catch (error) {
         const errorMsg = getApiErrorMessage(error);
         toast.error(errorMsg || "Failed to fetch dashboard data");
         throw error;
       }
     },
-    enabled: !!userRole,
     staleTime: 5 * 60 * 1000, // 5 minutes
     retry: 2,
   });

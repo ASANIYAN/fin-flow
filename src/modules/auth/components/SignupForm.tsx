@@ -1,15 +1,23 @@
 import { Form } from "@/components/ui/form";
 import { useSignupForm } from "../hooks/useSignupForm";
 import CustomInput from "@/components/common/custom-input";
-import CustomSelect from "@/components/common/custom-select";
 import { Mail, User } from "lucide-react";
 import CustomPasswordInput from "@/components/common/custom-password-input";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "react-router-dom";
 import type { SignupFormType } from "../utils/validation";
+import {
+  passwordHas8Characters,
+  passwordHasNumber,
+  passwordHasSymbol,
+  passwordHasUpperAndLowerCase,
+} from "../utils/passwordValidation";
 
 const SignupForm = () => {
   const { form, mutation } = useSignupForm();
+
+  const password = form.watch("password") || "";
 
   const onSubmit = (data: SignupFormType) => {
     mutation.mutate(data);
@@ -73,22 +81,6 @@ const SignupForm = () => {
           </fieldset>
 
           <fieldset className="space-y-2.5">
-            <legend className="sr-only">Role Selection</legend>
-            <CustomSelect
-              name="role"
-              control={form.control}
-              placeholder="Select your role"
-              selectTriggerClassName="rounded-lg h-12 border-border focus:ring-brand-primary"
-              options={[
-                { value: "lender", label: "I am a Lender" },
-                { value: "borrower", label: "I am a Borrower" },
-              ]}
-              aria-label="Select your role"
-              aria-required="true"
-            />
-          </fieldset>
-
-          <fieldset className="space-y-2.5">
             <legend className="sr-only">Contact Information</legend>
             <CustomInput
               name="email"
@@ -145,6 +137,77 @@ const SignupForm = () => {
                   : "password-requirements"
               }
             />
+
+            {/* Password validation checkboxes */}
+            <section className="space-y-2 text-xs grid grid-cols-1 md:grid-cols-2">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={passwordHas8Characters(password)}
+                  disabled
+                  className="data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary data-[state=checked]:opacity-100"
+                />
+                <span
+                  className={
+                    passwordHas8Characters(password)
+                      ? "text-brand-primary"
+                      : "text-gray-500"
+                  }
+                >
+                  At least 8 characters
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={passwordHasNumber(password)}
+                  disabled
+                  className="data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary data-[state=checked]:opacity-100"
+                />
+                <span
+                  className={
+                    passwordHasNumber(password)
+                      ? "text-brand-primary"
+                      : "text-gray-500"
+                  }
+                >
+                  Contains a number
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={passwordHasSymbol(password)}
+                  disabled
+                  className="data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary data-[state=checked]:opacity-100"
+                />
+                <span
+                  className={
+                    passwordHasSymbol(password)
+                      ? "text-brand-primary"
+                      : "text-gray-500"
+                  }
+                >
+                  Contains a special character
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  checked={passwordHasUpperAndLowerCase(password)}
+                  disabled
+                  className="data-[state=checked]:bg-brand-primary data-[state=checked]:border-brand-primary data-[state=checked]:opacity-100"
+                />
+                <span
+                  className={
+                    passwordHasUpperAndLowerCase(password)
+                      ? "text-brand-primary"
+                      : "text-gray-500"
+                  }
+                >
+                  Contains uppercase and lowercase letters
+                </span>
+              </div>
+            </section>
 
             <div
               id="password-requirements"

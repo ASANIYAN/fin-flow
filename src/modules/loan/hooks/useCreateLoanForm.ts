@@ -7,7 +7,6 @@ import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 import { toast } from "sonner";
 import { authApi } from "@/services/auth-services/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "@/store/user-store";
 
 type CreateLoanPayload = {
   title: string;
@@ -43,7 +42,6 @@ export const useCreateLoanForm = (): UseCreateLoanFormReturn => {
   });
 
   const navigate = useNavigate();
-  const { user } = useUserStore();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -78,7 +76,7 @@ export const useCreateLoanForm = (): UseCreateLoanFormReturn => {
         });
 
         toast.success(CREATE_LOAN_SUCCESS_MESSAGE);
-        queryClient.invalidateQueries({ queryKey: ["dashboard", user?.role] });
+        queryClient.invalidateQueries({ queryKey: ["dashboard"] });
         // Navigate to dashboard or loan details
         void navigate(`/dashboard`);
       } catch (err) {

@@ -28,7 +28,6 @@ export const useSignupForm = (): UseSignupFormReturn => {
       email: "",
       password: "",
       confirmPassword: "",
-      role: undefined,
     },
   });
 
@@ -41,7 +40,6 @@ export const useSignupForm = (): UseSignupFormReturn => {
         confirmPassword: data.confirmPassword,
         firstName: data.firstName,
         lastName: data.lastName,
-        role: data.role.toUpperCase() as "BORROWER" | "LENDER",
       };
 
       const response = await unauthApi.post<SignupResponse>(

@@ -32,7 +32,7 @@ export const useWithdrawMutation = () => {
       bankCode: string;
       accountNumber: string;
     }) => {
-      const res = await authApi.post(`/api/user/wallet/withdraw`, payload);
+      const res = await authApi.post(`/api/wallet/withdraw`, payload);
       return res.data;
     },
     onSuccess: () => {

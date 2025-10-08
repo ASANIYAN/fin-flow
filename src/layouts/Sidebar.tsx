@@ -9,7 +9,6 @@ type SidebarLink = {
   name: string;
   path: string;
   icon: string;
-  roleRequired?: "LENDER" | "BORROWER";
 };
 
 interface SidebarProps {
@@ -21,11 +20,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   isMobileOpen = false,
   onMobileToggle,
 }) => {
-  const { user, clearUser } = useUserStore();
+  const { clearUser } = useUserStore();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const allSidebarNavLinks: SidebarLink[] = [
+  const sidebarNavLinks: SidebarLink[] = [
     {
       name: "Dashboard",
       path: "/dashboard",
@@ -40,19 +39,16 @@ const Sidebar: React.FC<SidebarProps> = ({
       name: "Loan Listings",
       path: "/loan-listings",
       icon: "material-symbols:list-alt-outline",
-      roleRequired: "LENDER",
     },
     {
       name: "Create Loan",
       path: "/create-loan",
       icon: "material-symbols:add-circle-outline",
-      roleRequired: "BORROWER",
     },
     {
       name: "My Loans",
       path: "/user-loans",
       icon: "material-symbols:account-balance-outline",
-      roleRequired: "BORROWER",
     },
     {
       name: "Profile",
@@ -78,11 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     setShowLogoutModal(true);
   };
 
-  // Filter sidebar links based on user role
-  const sidebarNavLinks = allSidebarNavLinks.filter((link) => {
-    if (!link.roleRequired) return true; // Show if no role requirement
-    return user?.role === link.roleRequired;
-  });
+
 
   return (
     <>
