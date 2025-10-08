@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
   }, [pageSize, table]);
 
   return (
-    <section className="w-full overlfow-auto">
+    <section className="w-full overflow-auto" aria-label="Data table section">
       <Table className={cn("w-full", className)}>
         <TableHeader className="h-5">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -94,14 +94,19 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody className="bg-white">
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, rowIndex) => (
               <TableRow
                 className="border-none mb-20"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                aria-rowindex={rowIndex + 2}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell className="h-7.5" key={cell.id}>
+                {row.getVisibleCells().map((cell, cellIndex) => (
+                  <TableCell
+                    className="h-7.5"
+                    key={cell.id}
+                    aria-describedby={`col-${cellIndex}-header`}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -109,7 +114,12 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center"
+                role="cell"
+                aria-live="polite"
+              >
                 No results.
               </TableCell>
             </TableRow>

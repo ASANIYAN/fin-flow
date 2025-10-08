@@ -85,7 +85,12 @@ const LoginForm = () => {
 
           {/* Email Verification Error Section */}
           {emailVerificationError.isEmailNotVerified && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+            <div
+              className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4"
+              role="alert"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <div className="flex items-start space-x-3">
                 <div className="flex-shrink-0">
                   <RefreshCw
@@ -95,10 +100,16 @@ const LoginForm = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-medium text-red-800 mb-1">
+                  <h3
+                    className="text-sm font-medium text-red-800 mb-1"
+                    id="verification-error-heading"
+                  >
                     Email Verification Required
                   </h3>
-                  <p className="text-sm text-red-700 mb-3">
+                  <p
+                    className="text-sm text-red-700 mb-3"
+                    id="verification-error-description"
+                  >
                     Please verify your email address before logging in. Check
                     your inbox for the verification link.
                   </p>
@@ -110,6 +121,7 @@ const LoginForm = () => {
                     disabled={isResending}
                     className="border-red-300 text-red-800 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 cursor-pointer"
                     aria-label="Resend verification email"
+                    aria-describedby="verification-error-description"
                   >
                     {isResending ? (
                       <>
@@ -118,7 +130,7 @@ const LoginForm = () => {
                           className="animate-spin mr-2"
                           aria-hidden="true"
                         />
-                        Sending...
+                        <span aria-live="polite">Sending...</span>
                       </>
                     ) : (
                       <>

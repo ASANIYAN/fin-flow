@@ -34,6 +34,8 @@ const CustomPasswordInput: React.FC<
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const fieldId = `${name}-field`;
+  const buttonId = `${name}-toggle-button`;
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -43,42 +45,67 @@ const CustomPasswordInput: React.FC<
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem className="space-y-1">
-          <FormLabel
-            className={cn(
-              "text-black/70 text-base leading-5",
-              formLabelClassName
-            )}
-          >
-            {label}
-          </FormLabel>
+          {label && (
+            <FormLabel
+              htmlFor={fieldId}
+              className={cn(
+                "text-black/70 text-base leading-5",
+                formLabelClassName
+              )}
+            >
+              {label}
+              {rest.required && (
+                <span className="text-red-500 ml-1" aria-label="required">
+                  *
+                </span>
+              )}
+            </FormLabel>
+          )}
           <FormControl>
             <div
               className={cn(
                 "relative flex items-center justify-between bg-grey-1 h-12 px-3 border border-black",
-                containerClassName
+                containerClassName,
+                fieldState.error && "border-red-500"
               )}
             >
               <Input
+                id={fieldId}
                 type={showPassword ? "text" : "password"}
                 className={cn(
-                  "flex-1 py-4 placeholder:text-black/50 text-xs border-none shadow-none focus-visible:ring-0 focus:ring-0 focus-visible:outline-none",
+                  "flex-1 py-4 placeholder:text-black/50 text-xs border-none shadow-none focus-visible:ring-0 focus:ring-0 focus-visible:outline-none pr-10",
                   inputClassName
                 )}
+                aria-invalid={fieldState.error ? "true" : "false"}
+                aria-describedby={
+                  fieldState.error ? `${name}-error` : undefined
+                }
                 {...field}
                 {...rest}
               />
               <button
+                id={buttonId}
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="cursor-pointer hover:opacity-80 transition-opacity focus:outline-none p-1"
+                className="cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded-sm p-1"
                 aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-controls={fieldId}
+                tabIndex={0}
               >
                 {showPassword ? (
-                  <EyeOff color="var(--color-black)" size={16} />
+                  <EyeOff
+                    color="var(--color-black)"
+                    size={16}
+                    aria-hidden="true"
+                  />
                 ) : (
-                  <Eye color="var(--color-black)" size={16} />
+                  <Eye
+                    color="var(--color-black)"
+                    size={16}
+                    aria-hidden="true"
+                  />
                 )}
               </button>
             </div>

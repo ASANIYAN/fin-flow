@@ -14,31 +14,42 @@ const Dashboard: React.FC = () => {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+      <div
+        className="flex flex-col items-center justify-center min-h-[400px] space-y-4"
+        role="alert"
+        aria-live="polite"
+      >
         <div className="text-center">
           <Icon
             icon="material-symbols:error-outline"
             className="text-[--color-error] mx-auto mb-2"
             width={48}
             height={48}
+            aria-hidden="true"
           />
-          <h3 className="text-lg font-semibold text-text-primary mb-1">
+          <h3
+            className="text-lg font-semibold text-text-primary mb-1"
+            id="error-heading"
+          >
             Failed to load dashboard
           </h3>
-          <p className="text-text-secondary">
+          <p className="text-text-secondary" aria-describedby="error-heading">
             There was an error loading your dashboard data.
           </p>
         </div>
         <button
           onClick={() => refetch()}
           disabled={isRefetching}
-          className="flex items-center space-x-2 px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/90 transition-colors disabled:opacity-50"
+          className="flex items-center space-x-2 px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/90 transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+          aria-describedby="error-heading"
+          type="button"
         >
           <Icon
             icon="material-symbols:refresh"
             className={isRefetching ? "animate-spin" : ""}
             width={16}
             height={16}
+            aria-hidden="true"
           />
           <span>{isRefetching ? "Refreshing..." : "Try Again"}</span>
         </button>
@@ -48,13 +59,18 @@ const Dashboard: React.FC = () => {
 
   if (!data) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div
+        className="flex items-center justify-center min-h-[400px]"
+        role="status"
+        aria-live="polite"
+      >
         <div className="text-center">
           <Icon
             icon="material-symbols:inbox-outline"
             className="text-text-secondary mx-auto mb-2"
             width={48}
             height={48}
+            aria-hidden="true"
           />
           <p className="text-text-secondary">No dashboard data available</p>
         </div>
@@ -63,38 +79,49 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6 p-4 md:p-6 max-w-8xl mx-auto">
+    <main className="space-y-6 p-4 md:p-6 max-w-8xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-[--color-text-primary] mb-1">
             Dashboard
           </h1>
           <p className="text-[--color-text-secondary]">
-            Track your loan applications, funding progress, and investment opportunities
+            Track your loan applications, funding progress, and investment
+            opportunities
           </p>
         </div>
 
         <button
           onClick={() => refetch()}
           disabled={isRefetching}
-          className="flex items-center space-x-2 px-3 py-2 text-sm bg-light-gray hover:bg-border-neutral text-text-primary rounded-lg transition-colors disabled:opacity-50"
+          className="flex items-center space-x-2 px-3 py-2 text-sm bg-light-gray hover:bg-border-neutral text-text-primary rounded-lg transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+          aria-label={
+            isRefetching
+              ? "Refreshing dashboard data"
+              : "Refresh dashboard data"
+          }
+          type="button"
         >
           <Icon
             icon="material-symbols:refresh"
             className={isRefetching ? "animate-spin" : ""}
             width={16}
             height={16}
+            aria-hidden="true"
           />
           <span>{isRefetching ? "Refreshing..." : "Refresh"}</span>
         </button>
-      </div>
+      </header>
 
       {/* Dashboard Content */}
-      <div className="transition-all duration-300">
+      <section
+        className="transition-all duration-300"
+        aria-label="Dashboard content"
+      >
         <BorrowerDashboard data={data as BorrowerDashboardData} />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

@@ -22,6 +22,7 @@ interface CustomInputProps {
   inputClassName?: string;
   containerClassName?: string;
   formLabelClassName?: string;
+  describedBy?: string;
 }
 
 const CustomInput: React.FC<
@@ -36,34 +37,54 @@ const CustomInput: React.FC<
   append,
   prepend,
   error,
+  describedBy,
   ...rest
 }) => {
+  const fieldId = `${name}-field`;
+  const errorId = `${name}-error`;
+  const descriptionId = describedBy || undefined;
+
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem className="space-y-1">
-          <FormLabel
-            className={cn(
-              "text-black/70 text-base leading-5 font-normal",
-              formLabelClassName
-            )}
-          >
-            {label}
-          </FormLabel>
+          {label && (
+            <FormLabel
+              htmlFor={fieldId}
+              className={cn(
+                "text-black/70 text-base leading-5 font-normal",
+                formLabelClassName
+              )}
+            >
+              {label}
+              {rest.required && (
+                <span className="text-red-500 ml-1" aria-label="required">
+                  *
+                </span>
+              )}
+            </FormLabel>
+          )}
           <FormControl>
             <div
               className={cn(
                 "flex justify-between items-center gap-2 bg-grey-1 h-12 px-3 border border-black",
-                containerClassName
+                containerClassName,
+                fieldState.error && "border-red-500"
               )}
             >
               {append}
               <Input
+                id={fieldId}
                 className={cn(
                   "flex-1 py-4 placeholder:text-black/50 text-xs border-none shadow-none focus-visible:ring-0 focus-visible:outline-none disabled:cursor-not-allowed",
                   inputClassName
+                )}
+                aria-invalid={fieldState.error ? "true" : "false"}
+                aria-describedby={cn(
+                  fieldState.error && errorId,
+                  descriptionId && descriptionId
                 )}
                 {...field}
                 {...rest}
@@ -72,9 +93,16 @@ const CustomInput: React.FC<
             </div>
           </FormControl>
           {error && (
-            <span className="text-red-500 text-xs mt-1 block">{error}</span>
+            <span
+              id={errorId}
+              className="text-red-500 text-xs mt-1 block"
+              role="alert"
+              aria-live="polite"
+            >
+              {error}
+            </span>
           )}
-          <FormMessage />
+          <FormMessage id={fieldState.error ? errorId : undefined} />
         </FormItem>
       )}
     />

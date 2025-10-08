@@ -4,7 +4,7 @@ import CustomInput from "@/components/common/custom-input";
 import { Button } from "@/components/ui/button";
 import type { UpdateProfileFormType } from "../utils/validation";
 import type { UserProfile } from "../utils/types";
-import { User, Mail, Shield, CheckCircle, XCircle, Save } from "lucide-react";
+import { User, Mail, CheckCircle, XCircle, Save } from "lucide-react";
 
 interface ProfileFormProps {
   userProfile: UserProfile;
@@ -35,27 +35,6 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
       <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-medium">
         <XCircle size={16} />
         Unverified
-      </div>
-    );
-  };
-
-  const getRoleBadge = (role: string) => {
-    const roleColors = {
-      ADMIN: "bg-purple-100 text-purple-800",
-      LENDER: "bg-blue-100 text-blue-800",
-      BORROWER: "bg-orange-100 text-orange-800",
-    };
-
-    const colorClass =
-      roleColors[role as keyof typeof roleColors] ||
-      "bg-gray-100 text-gray-800";
-
-    return (
-      <div
-        className={`inline-flex items-center gap-2 px-3 py-1 ${colorClass} rounded-full text-sm font-medium`}
-      >
-        <Shield size={16} />
-        {role}
       </div>
     );
   };
@@ -145,16 +124,6 @@ const ProfileForm = ({ userProfile }: ProfileFormProps) => {
             aria-required="true"
             aria-invalid={!!form.formState.errors.lastName}
           />
-
-          {/* Role (Read-only) */}
-          <div className="space-y-2">
-            <label className="text-brand-primary font-medium text-sm">
-              Role
-            </label>
-            <div className="flex items-center">
-              {getRoleBadge(userProfile.role)}
-            </div>
-          </div>
 
           {/* Email Verification Status (Read-only) */}
           <div className="space-y-2">

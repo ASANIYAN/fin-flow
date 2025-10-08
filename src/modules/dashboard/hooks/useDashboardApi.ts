@@ -10,7 +10,7 @@ interface UnifiedDashboardApiResponse {
   data: {
     totalApplications: number;
     pendingApplications: number;
-    activeLoans: Array<{
+    activeLoansAsBorrower: Array<{
       id: string;
       title: string;
       description: string;
@@ -20,10 +20,42 @@ interface UnifiedDashboardApiResponse {
       duration: number;
       durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
       totalInterest: number;
+      principalRepaid: number;
       status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
+      borrowerId: string;
+      borrower: {
+        id: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        isEmailVerified: boolean;
+        emailVerifiedAt: string;
+        availableBalance: number;
+        escrowBalance: number;
+        createdAt: string;
+      };
       createdAt: string;
       updatedAt: string;
     }>;
+    investmentSummary: {
+      totalInvested: number;
+      totalEarnings: number;
+      activeInvestments: number;
+    };
+    newListings: Array<{
+      id: string;
+      title: string;
+      description: string;
+      amountRequested: number;
+      amountFunded: number;
+      interestRate: number;
+      duration: number;
+      status: "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED" | "PENDING";
+      borrower: string;
+      progress: number;
+      createdAt: string;
+    }>;
+    availableRoles: Array<"BORROWER" | "LENDER">;
   };
 }
 
@@ -41,7 +73,7 @@ export const useDashboardData = () => {
         return {
           totalApplications: response.data.data.totalApplications,
           pendingApplications: response.data.data.pendingApplications,
-          activeLoans: response.data.data.activeLoans.map((loan) => ({
+          activeLoans: response.data.data.activeLoansAsBorrower.map((loan) => ({
             id: loan.id,
             title: loan.title,
             status: loan.status,
