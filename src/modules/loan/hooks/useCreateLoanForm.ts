@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateLoanSchema, type CreateLoanFormType } from "../utils/validation";
 import type { CreateLoanResponse } from "../utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
+import { handleApiError } from "@/lib/getApiErrorMessage";
 import { toast } from "sonner";
 import { authApi } from "@/services/auth-services/axiosInstance";
 import { useNavigate } from "react-router-dom";
@@ -56,8 +56,20 @@ export const useCreateLoanForm = (): UseCreateLoanFormReturn => {
     },
     onError: (error) => {
       try {
-        const errorMsg = getApiErrorMessage(error);
-        toast.error(errorMsg || "An error occurred while creating the loan");
+        const { message, fieldErrors } = handleApiError(error);
+
+        // Set field errors if available
+        if (fieldErrors) {
+          Object.entries(fieldErrors).forEach(([field, messages]) => {
+            form.setError(field as keyof CreateLoanFormType, {
+              type: "server",
+              message: messages[0], // Use the first message
+            });
+          });
+        }
+
+        // Show the main error message
+        toast.error(message || "An error occurred while creating the loan");
       } catch (err) {
         console.error("Error handling failed:", err);
         toast.error("An error occurred while creating the loan");
