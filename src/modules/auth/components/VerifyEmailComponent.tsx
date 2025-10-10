@@ -1,17 +1,28 @@
 import { useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEmailVerification } from "../hooks/useEmailVerification";
+import { useResendVerification } from "../hooks/useResendVerification";
 import { toast } from "sonner";
 import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 
 const VerifyEmailComponent = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
   const { data, isLoading, isError, isSuccess, error } =
     useEmailVerification(token);
+
+  const { resendVerification, isResending } = useResendVerification();
+
+  // Handle resend verification
+  const handleResendVerification = () => {
+    if (email) {
+      resendVerification({ email });
+    }
+  };
 
   // Handle success and error notifications
   useEffect(() => {
@@ -112,12 +123,23 @@ const VerifyEmailComponent = () => {
           </p>
           <div className="space-y-4">
             <Button
-              asChild
-              className="w-full bg-brand-primary hover:bg-brand-primary/80 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded-xl py-5 h-12 text-white text-base text-center flex justify-center items-center transition-all duration-300"
+              onClick={handleResendVerification}
+              disabled={isResending}
+              className="w-full bg-brand-primary hover:bg-brand-primary/80 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 rounded-xl py-5 h-12 text-white text-base text-center flex justify-center items-center transition-all duration-300 disabled:opacity-50"
+              aria-label="Request new verification email"
             >
-              <Link to="/signup" aria-label="Go to signup page">
-                Request New Link
-              </Link>
+              {isResending ? (
+                <>
+                  <RefreshCw
+                    size={16}
+                    className="animate-spin mr-2"
+                    aria-hidden="true"
+                  />
+                  <span aria-live="polite">Sending...</span>
+                </>
+              ) : (
+                "Request New Link"
+              )}
             </Button>
             <Button
               asChild

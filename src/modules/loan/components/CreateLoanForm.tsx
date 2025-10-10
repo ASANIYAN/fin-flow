@@ -5,13 +5,7 @@ import CustomTextArea from "@/components/common/custom-textarea";
 import CustomSelect from "@/components/common/custom-select";
 import { Button } from "@/components/ui/button";
 import type { CreateLoanFormType } from "../utils/validation";
-import {
-  DollarSign,
-  FileText,
-  Percent,
-  Calendar,
-  PiggyBank,
-} from "lucide-react";
+import { FileText, Percent, Calendar, PiggyBank } from "lucide-react";
 
 const CreateLoanForm = () => {
   const { form, mutation } = useCreateLoanForm();
@@ -95,13 +89,7 @@ const CreateLoanForm = () => {
             control={form.control}
             containerClassName="rounded-lg border-gray-300 focus-within:border-brand-primary"
             formLabelClassName="text-brand-primary font-medium"
-            append={
-              <DollarSign
-                size={20}
-                color="var(--color-text-secondary)"
-                aria-hidden="true"
-              />
-            }
+            append={"₦"}
             aria-label="Amount requested in Naira"
             aria-required="true"
             aria-invalid={!!form.formState.errors.amountRequested}

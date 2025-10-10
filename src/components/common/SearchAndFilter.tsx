@@ -1,6 +1,5 @@
 import { Icon } from "@iconify/react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 type Column = {
   id: string;
@@ -13,16 +12,13 @@ interface SearchAndFilterProps {
   columns?: Column[];
   visibleColumns?: string[];
   onColumnToggle?: (id: string) => void;
-  showDownloadButton?: boolean;
-  onDownload?: () => void;
+
   placeholder?: string;
 }
 
 const SearchAndFilter = ({
   searchValue,
   onSearchChange,
-  showDownloadButton = false,
-  onDownload,
   placeholder = "Search loans...",
 }: SearchAndFilterProps) => {
   return (
@@ -41,18 +37,6 @@ const SearchAndFilter = ({
           placeholder={placeholder}
         />
       </div>
-
-      {showDownloadButton && (
-        <Button
-          onClick={onDownload}
-          className="bg-brand-primary hover:bg-brand-primary/90 rounded-lg flex items-center gap-1 py-2 px-4 h-12.5"
-        >
-          <Icon color="#fff" icon="ri:download-2-line" width="20" height="20" />
-          <span className="block text-white font-medium text-sm">
-            Download Report
-          </span>
-        </Button>
-      )}
     </section>
   );
 };

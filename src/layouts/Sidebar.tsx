@@ -51,6 +51,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       icon: "material-symbols:account-balance-outline",
     },
     {
+      name: "Funded Loans",
+      path: "/funded-loans",
+      icon: "material-symbols:handshake-outline",
+    },
+    {
       name: "Profile",
       path: "/profile",
       icon: "material-symbols:account-circle-outline",
@@ -118,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             {/* Close button for mobile */}
             <button
               onClick={onMobileToggle}
-              className="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2"
+              className="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2"
               aria-label="Close navigation menu"
               type="button"
             >
@@ -144,8 +149,9 @@ const Sidebar: React.FC<SidebarProps> = ({
               <li key={link.name} role="none">
                 <NavLink
                   to={link.path}
+                  onClick={onMobileToggle}
                   className={({ isActive }) =>
-                    `flex items-center gap-4 h-12.5 w-full px-4 rounded-md transition-colors duration-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 ${
+                    `flex items-center gap-4 h-12.5 w-full px-4 rounded-md transition-colors duration-400 focus:outline-none focus:ring-2 focus:ring-transparent focus:ring-offset-2 ${
                       isActive
                         ? "bg-brand-primary border-2 border-brand-primary"
                         : "border-l-2 border-transparent hover:bg-brand-primary/90"

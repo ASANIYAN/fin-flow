@@ -18,7 +18,6 @@ const LoanListings: React.FC = () => {
     setSearchQuery,
     setCurrentPage,
     setPageSize,
-    handleDownload,
     refetch,
   } = useLoanListingsContext();
 
@@ -68,8 +67,6 @@ const LoanListings: React.FC = () => {
       <SearchAndFilter
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
-        showDownloadButton={true}
-        onDownload={handleDownload}
         placeholder="Search by loan title, borrower name, or description..."
       />
 

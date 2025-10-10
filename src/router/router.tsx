@@ -6,6 +6,7 @@ import ResetPasswordView from "@/modules/auth/views/ResetPasswordView";
 import Signup from "@/modules/auth/views/Signup";
 import VerifyEmailView from "@/modules/auth/views/VerifyEmailView";
 import Dashboard from "@/modules/dashboard/views/Dashboard";
+import FundedLoansPage from "@/modules/funded-loans/views/FundedLoansPage";
 import LoanListingsPage from "@/modules/listings/views/LoanListingsPage";
 import CreateLoanPage from "@/modules/loan/views/CreateLoanPage";
 import ProfileView from "@/modules/profile/views/ProfileView";
@@ -27,6 +28,7 @@ const protectedRoutes: RouteObject[] = [
       { path: "/loan-listings", element: <LoanListingsPage /> },
       { path: "/create-loan", element: <CreateLoanPage /> },
       { path: "/user-loans", element: <UserLoansPage /> },
+      { path: "/funded-loans", element: <FundedLoansPage /> },
       { path: "/wallet", element: <WalletPage /> },
       { path: "/profile", element: <ProfileView /> },
     ],
