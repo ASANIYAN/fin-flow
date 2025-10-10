@@ -14,7 +14,7 @@ export const useGetUserProfile = () => {
       );
       return response.data;
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 1 * 60 * 1000, // 1 minute
     refetchOnWindowFocus: false,
   });
 };
