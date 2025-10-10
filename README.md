@@ -2,25 +2,31 @@
 
 ## Overview & Goal
 
-FinFlow is a comprehensive React-based frontend application for a peer-to-peer lending platform, enabling seamless interactions between borrowers and lenders. Users can browse loan listings, apply for loans, fund their wallets, withdraw earnings, and manage their profiles—all through an intuitive, responsive interface. The app emphasizes security, performance, and user experience, handling complex financial workflows with real-time data, robust validation, and efficient API integrations.
+FinFlow is a comprehensive React-based frontend application for a peer-to-peer lending platform, enabling seamless interactions where users can act as both borrowers and lenders. Users can seamlessly switch between borrowing and lending activities through an intuitive unified dashboard, browse loan listings, apply for loans, fund their investments, manage their wallets, withdraw earnings, and handle their profiles—all through a responsive, role-agnostic interface. The app emphasizes security, performance, and user experience, handling complex financial workflows with real-time data, robust validation, and efficient API integrations.
 
-Key features include wallet management with Paystack-powered funding and withdrawals, account name resolution for secure transfers, debounced inputs to optimize API calls, and a dashboard with analytics and transaction history. The application is built with modularity in mind, separating concerns across feature modules for maintainability and scalability.
+Key features include a unified dashboard with tab-based navigation between borrower and lender views, wallet management with Paystack-powered funding and withdrawals, account name resolution for secure transfers, debounced inputs to optimize API calls, and comprehensive analytics for both investment and borrowing activities. The application is built with modularity in mind, separating concerns across feature modules for maintainability and scalability.
 
 ## Features
 
 - **Authentication**: Secure login and registration with JWT-based auth.
-- **Dashboard**: Overview of user stats, including balance, loans, and transactions, with interactive charts.
-- **Loan Listings**: Browse and filter available loan opportunities.
-- **Loan Management**: Apply for loans, view user-specific loans, and track statuses.
-- **Wallet Operations**: Fund wallet via Paystack, withdraw funds with account verification, and view transaction history.
-- **Profile Management**: Update user details and settings.
-- **Responsive Design**: Mobile-first UI with Tailwind CSS and Shadcn components.
+- **Unified Dashboard**: Dual-role overview with tabbed interface for switching between borrower and lender views, including comprehensive stats, balances, loans, investments, and transaction history with interactive charts.
+- **Borrower Features**:
+  - Browse and filter available loan opportunities
+  - Apply for loans and track application statuses
+  - Manage loan repayments and view loan history
+- **Lender Features**:
+  - View investment opportunities and fund loans
+  - Track funded loans and monitor returns
+  - Analyze investment performance and earnings
+- **Wallet Operations**: Fund wallet via Paystack, withdraw funds with account verification, and view comprehensive transaction history for both borrowing and lending activities.
+- **Profile Management**: Update user details and settings with role-agnostic preferences.
+- **Responsive Design**: Mobile-first UI with Tailwind CSS and Shadcn components, optimized for both borrower and lender workflows.
 
 ## Technical Decisions & Performance
 
 ### API Integration & Data Fetching
 
-The app uses TanStack Query (React Query) for efficient data fetching, caching, and synchronization. Queries handle user profiles, transactions, banks, and loan data, with automatic invalidation on mutations (e.g., refreshing wallet data after funding). Axios is employed for HTTP requests, with interceptors for authentication and error handling. This setup ensures minimal API calls, optimistic updates, and offline resilience.
+The app uses TanStack Query (React Query) for efficient data fetching, caching, and synchronization. Queries handle user profiles, transactions, banks, loan data, and investment analytics, with automatic invalidation on mutations (e.g., refreshing wallet data after funding, updating investment summaries after loan funding). The unified dashboard leverages a single API endpoint to serve both borrower and lender data, optimizing performance and ensuring data consistency. Axios is employed for HTTP requests, with interceptors for authentication and error handling. This setup ensures minimal API calls, optimistic updates, and offline resilience across both borrowing and lending workflows.
 
 ### Payment & External Integrations
 
@@ -28,7 +34,7 @@ Paystack is integrated for secure payments, including wallet funding and account
 
 ### Form Management & Validation
 
-Forms are managed with React Hook Form and Zod schemas for type-safe validation. Custom hooks encapsulate logic for mutations (e.g., `useFundWalletMutation`, `useWithdrawMutation`), enabling reusable, declarative components. Validation includes minimum amounts, regex patterns (e.g., for account numbers), and real-time feedback.
+Forms are managed with React Hook Form and Zod schemas for type-safe validation. Custom hooks encapsulate logic for mutations (e.g., `useFundWalletMutation`, `useWithdrawMutation`, `useLoanFundingMutation`), enabling reusable, declarative components. Validation includes minimum amounts, regex patterns (e.g., for account numbers), investment limits, and real-time feedback for both borrowing and lending scenarios.
 
 ### Debouncing & Performance Optimizations
 
@@ -36,7 +42,7 @@ Custom `useDebounce` hooks (500ms delay) are used on inputs like account numbers
 
 ### State Management
 
-Zustand provides lightweight global state for user data, while local state in components handles UI-specific logic. React Query manages server state, avoiding unnecessary re-renders.
+Zustand provides lightweight global state for user data, while local state in components handles UI-specific logic (including dashboard tab switching between borrower and lender views). React Query manages server state, avoiding unnecessary re-renders while ensuring data consistency across dual-role interfaces.
 
 ### Type Safety & Build
 
@@ -44,32 +50,35 @@ TypeScript ensures compile-time type checking across components, hooks, and API 
 
 ## Component Structure
 
-The application follows a modular, feature-based architecture:
+The application follows a modular, feature-based architecture designed to support dual-role user workflows:
 
-- **Modules**: Organized by domain (e.g., `auth`, `dashboard`, `listings`, `loan`, `profile`, `user-loans`, `wallet`). Each module contains `components`, `hooks`, `types`, and `views` for encapsulation.
-- **Reusable Components**: Located in `src/components/ui` (e.g., Button, Card, Dialog) and `src/components/common` (e.g., CustomInput, ComboboxSelect), built with Shadcn UI for consistency.
-- **Hooks**: Custom hooks in `src/hooks` (e.g., `useDebounce`) and module-specific hooks for queries/mutations.
-- **Layouts & Providers**: `src/layouts` for page structures, `src/providers` for context (e.g., QueryClient provider).
-- **Services & Utils**: `src/services` for API clients, `src/lib` for utilities like formatting and validation.
-- **Routing**: React Router for client-side navigation.
+- **Modules**: Organized by domain (e.g., `auth`, `dashboard`, `listings`, `loan`, `profile`, `user-loans`, `funded-loans`, `wallet`). Each module contains `components`, `hooks`, `types`, and `views` for encapsulation. The dashboard module specifically supports both borrower and lender interfaces.
+- **Reusable Components**: Located in `src/components/ui` (e.g., Button, Card, Dialog, StatusCard) and `src/components/common` (e.g., CustomInput, ComboboxSelect, DataTable), built with Shadcn UI for consistency across borrower and lender workflows.
+- **Hooks**: Custom hooks in `src/hooks` (e.g., `useDebounce`) and module-specific hooks for queries/mutations. The `useUnifiedDashboardData` hook efficiently serves data for both user roles.
+- **Layouts & Providers**: `src/layouts` for page structures including responsive sidebar navigation, `src/providers` for context (e.g., QueryClient provider).
+- **Services & Utils**: `src/services` for API clients, `src/lib` for utilities like formatting and validation that work across both borrower and lender contexts.
+- **Routing**: React Router for client-side navigation with role-agnostic route handling.
 
-This structure promotes separation of concerns, with container components (e.g., `WithdrawModal`, `WalletPage`) managing state and logic, while presentational components handle UI.
+This structure promotes separation of concerns, with container components managing state and logic for both roles, while presentational components handle UI consistently across borrowing and lending features.
 
 ## Styling & Responsiveness
 
-Styling leverages Tailwind CSS for utility-first classes, combined with Shadcn UI components for accessible, customizable primitives. The design is mobile-first, with responsive breakpoints ensuring compatibility across devices. Interactive elements include hover states, transitions, and loading skeletons for better UX. Charts in the dashboard use Recharts for data visualization.
+Styling leverages Tailwind CSS for utility-first classes, combined with Shadcn UI components for accessible, customizable primitives. The design is mobile-first with responsive breakpoints ensuring compatibility across devices for both borrower and lender interfaces. Interactive elements include hover states, transitions, loading skeletons, and tab-based navigation for seamless role switching. Charts in the unified dashboard use Recharts for data visualization of both borrowing and investment metrics.
 
 ## Testing Focus (UI & Integration)
 
 Testing is handled with Vitest for unit tests and Cypress/Playwright for E2E scenarios. Coverage includes:
 
 - **Authentication Flows**: Login, registration, and token handling.
-- **Wallet Operations**: Funding modal integration, withdrawal with account resolution, debounced inputs, and transaction invalidation.
-- **Dashboard & Listings**: Data rendering, chart interactions, and filtering.
-- **Form Validations**: Error states, submission handling, and API responses.
-- **UI States**: Loading skeletons, error toasts, and responsive layouts.
+- **Dual-Role Dashboard**: Tab switching between borrower and lender views, data consistency, and role-specific analytics.
+- **Wallet Operations**: Funding modal integration, withdrawal with account resolution, debounced inputs, and transaction invalidation across both borrowing and lending activities.
+- **Borrower Workflows**: Loan application, status tracking, and repayment management.
+- **Lender Workflows**: Investment opportunities, loan funding, portfolio tracking, and earnings management.
+- **Dashboard & Listings**: Data rendering, chart interactions, filtering, and unified data display.
+- **Form Validations**: Error states, submission handling, and API responses for both borrower and lender forms.
+- **UI States**: Loading skeletons, error toasts, responsive layouts, and seamless role transitions.
 
-Tests simulate user interactions, network delays, and edge cases to ensure reliability.
+Tests simulate user interactions, network delays, edge cases, and role-switching scenarios to ensure reliability across all user workflows.
 
 ## Installation
 
