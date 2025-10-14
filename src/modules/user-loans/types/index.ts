@@ -33,3 +33,40 @@ export interface UserLoansQueryParams {
   maxAmount?: number;
   status?: string;
 }
+
+// Update loan types
+export interface UpdateLoanPayload {
+  title: string;
+  description: string;
+  amountRequested: number;
+  interestRate: number;
+  duration: number;
+  durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+}
+
+export interface UpdateLoanData {
+  id: string;
+  title: string;
+  description: string;
+  amountRequested: number;
+  amountFunded: number;
+  interestRate: number;
+  duration: number;
+  durationUnit: "DAYS" | "WEEKS" | "MONTHS" | "YEARS";
+  totalInterest: number;
+  status: "PENDING" | "FUNDING" | "FUNDED" | "REPAID" | "DEFAULTED";
+  borrower: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UpdateLoanResponse {
+  success: boolean;
+  message: string;
+  data: UpdateLoanData;
+}

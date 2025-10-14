@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { UserLoan } from "../types";
+import ActionsCell from "./ActionsCell";
 
 export const userLoansColumns: ColumnDef<UserLoan>[] = [
   {
@@ -175,5 +176,15 @@ export const userLoansColumns: ColumnDef<UserLoan>[] = [
         {new Date(row.original.createdAt).toLocaleDateString()}
       </div>
     ),
+  },
+  {
+    id: "actions",
+    header: () => (
+      <span className="text-text-secondary font-medium text-sm">Actions</span>
+    ),
+    cell: ({ row }) => {
+      const loan = row.original;
+      return <ActionsCell loan={loan} />;
+    },
   },
 ];
