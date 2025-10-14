@@ -1,9 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import UpdateLoanForm from "./UpdateLoanForm";
 import type { UserLoan } from "../types";
 
@@ -28,12 +23,6 @@ const UpdateLoanDialog: React.FC<UpdateLoanDialogProps> = ({
         className="max-w-2xl max-h-[90vh] overflow-y-auto"
         showCloseButton={true}
       >
-        <DialogHeader>
-          <DialogTitle className="text-lg font-semibold text-center">
-            Update Loan Request
-          </DialogTitle>
-        </DialogHeader>
-
         <div className="mt-4">
           <UpdateLoanForm loan={loan} onSuccess={handleSuccess} />
         </div>

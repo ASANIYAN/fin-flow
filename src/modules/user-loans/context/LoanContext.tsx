@@ -1,10 +1,7 @@
 import React, { createContext, useState, useMemo } from "react";
 import type { ReactNode } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { authApi } from "@/services/auth-services/axiosInstance";
-import { getApiErrorMessage } from "@/lib/getApiErrorMessage";
 import type { UserLoan } from "../types";
+import { useUserLoansQuery } from "../hooks/useUserLoansQuery";
 
 interface PaginationData {
   page: number;
@@ -80,68 +77,15 @@ export const LoanProvider: React.FC<LoanProviderProps> = ({ children }) => {
     [currentPage, pageSize, searchQuery, statusFilter, minAmount, maxAmount]
   );
 
-  // Data fetching with direct query
-  const { data, isLoading, isFetching, error, refetch } = useQuery({
-    queryKey: ["user-loans", queryParams],
-    queryFn: async (): Promise<{
-      loans: UserLoan[];
-      page: number;
-      pageSize: number;
-      totalCount: number;
-      totalPages: number;
-    }> => {
-      try {
-        const searchParams = new URLSearchParams({
-          page: queryParams.page.toString(),
-          pageSize: queryParams.pageSize.toString(),
-        });
-
-        if (queryParams.q?.trim()) {
-          searchParams.append("q", queryParams.q.trim());
-        }
-
-        if (queryParams.minAmount !== undefined) {
-          searchParams.append("minAmount", queryParams.minAmount.toString());
-        }
-
-        if (queryParams.maxAmount !== undefined) {
-          searchParams.append("maxAmount", queryParams.maxAmount.toString());
-        }
-
-        if (queryParams.status) {
-          searchParams.append("status", queryParams.status);
-        }
-
-        const response = await authApi.get(
-          `/api/loans/my-loans?${searchParams.toString()}`
-        );
-
-        if (!response.data.success) {
-          throw new Error(
-            response.data.message || "Failed to fetch user loans"
-          );
-        }
-
-        return response.data.data;
-      } catch (error) {
-        const errorMsg = getApiErrorMessage(error);
-        toast.error(errorMsg || "Failed to fetch your loans");
-        throw error;
-      }
-    },
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    retry: 2,
-    enabled: true,
-  });
-
-  // Extract data from response
-  const loans = data?.loans || [];
-  const paginationData: PaginationData = {
-    page: data?.page || currentPage,
-    pageSize: data?.pageSize || pageSize,
-    totalItems: data?.totalCount || 0,
-    totalPages: data?.totalPages || 0,
-  };
+  // Data fetching with the dedicated hook
+  const {
+    loans,
+    pagination: paginationData,
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useUserLoansQuery(queryParams);
 
   // Filter actions
   const handleSetSearchQuery = (value: string) => {
